@@ -1,146 +1,986 @@
 {
-  "Mainland China": "TBD",
-  "South Korea": "TBD",
-  "Others": "TBD",
-  "Italy": "TBD",
-  "Japan": "TBD",
-  "Iran": "TBD",
-  "Singapore": "TBD",
-  "Hong Kong": "TBD",
-  "US": "TBD",
-  "Thailand": "TBD",
-  "Bahrain": "TBD",
-  "Taiwan": "TBD",
-  "Germany": "TBD",
-  "Kuwait": "TBD",
-  "Malaysia": "TBD",
-  "France": "TBD",
-  "Vietnam": "TBD",
-  "Spain": "TBD",
-  "UK": "TBD",
-  "United Arab Emirates": "TBD",
-  "Macau": "TBD",
-  "Australia": "TBD",
-  "Canada": "TBD",
-  "Iraq": "TBD",
-  "Oman": "TBD",
-  "Croatia": "TBD",
-  "India": "TBD",
-  "Philippines": "TBD",
-  "Austria": "TBD",
-  "Finland": "TBD",
-  "Israel": "TBD",
-  "Lebanon": "TBD",
-  "Pakistan": "TBD",
-  "Russia": "TBD",
-  "Sweden": "TBD",
-  "Afghanistan": "TBD",
-  "Algeria": "TBD",
-  "Belgium": "TBD",
-  "Brazil": "TBD",
-  "Cambodia": "TBD",
-  "Egypt": "TBD",
-  "Georgia": "TBD",
-  "Greece": "TBD",
-  "Nepal": "TBD",
-  "North Macedonia": "TBD",
-  "Norway": "TBD",
-  "Romania": "TBD",
-  "Sri Lanka": "TBD",
-  "Switzerland": "TBD",
-  "Denmark": "TBD",
-  "Estonia": "TBD",
-  "Netherlands": "TBD",
-  "San Marino": "TBD",
-  "Iran (Islamic Republic of)": "TBD",
-  "Republic of Korea": "TBD",
-  "Hong Kong SAR": "TBD",
-  "Iceland": "TBD",
-  "Taipei and environs": "TBD",
-  "Czech Republic": "TBD",
-  "Portugal": "TBD",
-  "Ireland": "TBD",
-  "Slovenia": "TBD",
-  "Viet Nam": "TBD",
-  "Indonesia": "TBD",
-  "occupied Palestinian territory": "TBD",
-  "Qatar": "TBD",
-  "Poland": "TBD",
-  "Saudi Arabia": "TBD",
-  "Argentina": "TBD",
-  "Ecuador": "TBD",
-  "Chile": "TBD",
-  "Azerbaijan": "TBD",
-  "Peru": "TBD",
-  "Albania": "TBD",
-  "Macao SAR": "TBD",
-  "Russian Federation": "TBD",
-  "Belarus": "TBD",
-  "Costa Rica": "TBD",
-  "Hungary": "TBD",
-  "Latvia": "TBD",
-  "Mexico": "TBD",
-  "Slovakia": "TBD",
-  "South Africa": "TBD",
-  "Maldives": "TBD",
-  "Bosnia and Herzegovina": "TBD",
-  "Dominican Republic": "TBD",
-  "French Guiana": "TBD",
-  "Luxembourg": "TBD",
-  "Malta": "TBD",
-  "New Zealand": "TBD",
-  "Serbia": "TBD",
-  "Tunisia": "TBD",
-  "Bulgaria": "TBD",
-  "Senegal": "TBD",
-  "Bangladesh": "TBD",
-  "Colombia": "TBD",
-  "Cyprus": "TBD",
-  "Morocco": "TBD",
-  "Republic of Moldova": "TBD",
-  "Cameroon": "TBD",
-  "Faroe Islands": "TBD",
-  "Martinique": "TBD",
-  "Nigeria": "TBD",
-  "Saint Martin": "TBD",
-  "Andorra": "TBD",
-  "Armenia": "TBD",
-  "Bhutan": "TBD",
-  "Brunei": "TBD",
-  "Burkina Faso": "TBD",
-  "Channel Islands": "TBD",
-  "Gibraltar": "TBD",
-  "Holy See": "TBD",
-  "Jordan": "TBD",
-  "Liechtenstein": "TBD",
-  "Lithuania": "TBD",
-  "Monaco": "TBD",
-  "Mongolia": "TBD",
-  "Panama": "TBD",
-  "Paraguay": "TBD",
-  "Saint Barthelemy": "TBD",
-  "Togo": "TBD",
-  "Ukraine": "TBD",
-  "China": "TBD",
-  "Korea, South": "TBD",
-  "Cruise Ship": "TBD",
-  "United Kingdom": "TBD",
-  "Czechia": "TBD",
-  "Taiwan*": "TBD",
-  "Moldova": "TBD",
-  "Bolivia": "TBD",
-  "Honduras": "TBD",
-  "Congo (Kinshasa)": "TBD",
-  "Cote d'Ivoire": "TBD",
-  "Jamaica": "TBD",
-  "Reunion": "TBD",
-  "Turkey": "TBD",
-  "Palestine": "TBD",
-  "Vatican City": "TBD",
-  "Ivory Coast": "TBD",
-  "Cuba": "TBD",
-  "Guyana": "TBD",
-  "North Ireland": "TBD",
-  "St. Martin": "TBD",
-  "Republic of Ireland": "TBD"
+  "Mainland China": {
+    "id": "CN",
+    "name": "China",
+    "region": "Asia",
+    "subregion": "Eastern Asia",
+    "flag": "🇨🇳"
+  },
+  "South Korea": {
+    "id": "KR",
+    "name": "Korea (Republic of)",
+    "region": "Asia",
+    "subregion": "Eastern Asia",
+    "flag": "🇰🇷"
+  },
+  "Others": "",
+  "Italy": {
+    "id": "IT",
+    "name": "Italy",
+    "region": "Europe",
+    "subregion": "Southern Europe",
+    "flag": "🇮🇹"
+  },
+  "Japan": {
+    "id": "JP",
+    "name": "Japan",
+    "region": "Asia",
+    "subregion": "Eastern Asia",
+    "flag": "🇯🇵"
+  },
+  "Iran": {
+    "id": "IR",
+    "name": "Iran (Islamic Republic of)",
+    "region": "Asia",
+    "subregion": "Southern Asia",
+    "flag": "🇮🇷"
+  },
+  "Singapore": {
+    "id": "SG",
+    "name": "Singapore",
+    "region": "Asia",
+    "subregion": "South-Eastern Asia",
+    "flag": "🇸🇬"
+  },
+  "Hong Kong": {
+    "id": "HK",
+    "name": "Hong Kong",
+    "region": "Asia",
+    "subregion": "Eastern Asia",
+    "flag": "🇭🇰"
+  },
+  "US": {
+    "id": "US",
+    "name": "United States of America",
+    "region": "Americas",
+    "subregion": "Northern America",
+    "flag": "🇺🇸"
+  },
+  "Thailand": {
+    "id": "TH",
+    "name": "Thailand",
+    "region": "Asia",
+    "subregion": "South-Eastern Asia",
+    "flag": "🇹🇭"
+  },
+  "Bahrain": {
+    "id": "BH",
+    "name": "Bahrain",
+    "region": "Asia",
+    "subregion": "Western Asia",
+    "flag": "🇧🇭"
+  },
+  "Taiwan": {
+    "id": "TW",
+    "name": "Taiwan, Province of China",
+    "region": "Asia",
+    "subregion": "Eastern Asia",
+    "flag": "🇹🇼"
+  },
+  "Germany": {
+    "id": "DE",
+    "name": "Germany",
+    "region": "Europe",
+    "subregion": "Western Europe",
+    "flag": "🇩🇪"
+  },
+  "Kuwait": {
+    "id": "KW",
+    "name": "Kuwait",
+    "region": "Asia",
+    "subregion": "Western Asia",
+    "flag": "🇰🇼"
+  },
+  "Malaysia": {
+    "id": "MY",
+    "name": "Malaysia",
+    "region": "Asia",
+    "subregion": "South-Eastern Asia",
+    "flag": "🇲🇾"
+  },
+  "France": {
+    "id": "FR",
+    "name": "France",
+    "region": "Europe",
+    "subregion": "Western Europe",
+    "flag": "🇫🇷"
+  },
+  "Vietnam": {
+    "id": "VN",
+    "name": "Viet Nam",
+    "region": "Asia",
+    "subregion": "South-Eastern Asia",
+    "flag": "🇻🇳"
+  },
+  "Spain": {
+    "id": "ES",
+    "name": "Spain",
+    "region": "Europe",
+    "subregion": "Southern Europe",
+    "flag": "🇪🇸"
+  },
+  "UK": {
+    "id": "GB",
+    "name": "United Kingdom of Great Britain and Northern Ireland",
+    "region": "Europe",
+    "subregion": "Northern Europe",
+    "flag": "🇬🇧"
+  },
+  "United Arab Emirates": {
+    "id": "AE",
+    "name": "United Arab Emirates",
+    "region": "Asia",
+    "subregion": "Western Asia",
+    "flag": "🇦🇪"
+  },
+  "Macau": {
+    "id": "MO",
+    "name": "Macao",
+    "region": "Asia",
+    "subregion": "Eastern Asia",
+    "flag": "🇲🇴"
+  },
+  "Australia": {
+    "id": "AU",
+    "name": "Australia",
+    "region": "Oceania",
+    "subregion": "Australia and New Zealand",
+    "flag": "🇦🇺"
+  },
+  "Canada": {
+    "id": "CA",
+    "name": "Canada",
+    "region": "Americas",
+    "subregion": "Northern America",
+    "flag": "🇨🇦"
+  },
+  "Iraq": {
+    "id": "IQ",
+    "name": "Iraq",
+    "region": "Asia",
+    "subregion": "Western Asia",
+    "flag": "🇮🇶"
+  },
+  "Oman": {
+    "id": "OM",
+    "name": "Oman",
+    "region": "Asia",
+    "subregion": "Western Asia",
+    "flag": "🇴🇲"
+  },
+  "Croatia": {
+    "id": "HR",
+    "name": "Croatia",
+    "region": "Europe",
+    "subregion": "Southern Europe",
+    "flag": "🇭🇷"
+  },
+  "India": {
+    "id": "IN",
+    "name": "India",
+    "region": "Asia",
+    "subregion": "Southern Asia",
+    "flag": "🇮🇳"
+  },
+  "Philippines": {
+    "id": "PH",
+    "name": "Philippines",
+    "region": "Asia",
+    "subregion": "South-Eastern Asia",
+    "flag": "🇵🇭"
+  },
+  "Austria": {
+    "id": "AT",
+    "name": "Austria",
+    "region": "Europe",
+    "subregion": "Western Europe",
+    "flag": "🇦🇹"
+  },
+  "Finland": {
+    "id": "FI",
+    "name": "Finland",
+    "region": "Europe",
+    "subregion": "Northern Europe",
+    "flag": "🇫🇮"
+  },
+  "Israel": {
+    "id": "IL",
+    "name": "Israel",
+    "region": "Asia",
+    "subregion": "Western Asia",
+    "flag": "🇮🇱"
+  },
+  "Lebanon": {
+    "id": "LB",
+    "name": "Lebanon",
+    "region": "Asia",
+    "subregion": "Western Asia",
+    "flag": "🇱🇧"
+  },
+  "Pakistan": {
+    "id": "PK",
+    "name": "Pakistan",
+    "region": "Asia",
+    "subregion": "Southern Asia",
+    "flag": "🇵🇰"
+  },
+  "Russia": {
+    "id": "RU",
+    "name": "Russian Federation",
+    "region": "Europe",
+    "subregion": "Eastern Europe",
+    "flag": "🇷🇺"
+  },
+  "Sweden": {
+    "id": "SE",
+    "name": "Sweden",
+    "region": "Europe",
+    "subregion": "Northern Europe",
+    "flag": "🇸🇪"
+  },
+  "Afghanistan": {
+    "id": "AF",
+    "name": "Afghanistan",
+    "region": "Asia",
+    "subregion": "Southern Asia",
+    "flag": "🇦🇫"
+  },
+  "Algeria": {
+    "id": "DZ",
+    "name": "Algeria",
+    "region": "Africa",
+    "subregion": "Northern Africa",
+    "flag": "🇩🇿"
+  },
+  "Belgium": {
+    "id": "BE",
+    "name": "Belgium",
+    "region": "Europe",
+    "subregion": "Western Europe",
+    "flag": "🇧🇪"
+  },
+  "Brazil": {
+    "id": "BR",
+    "name": "Brazil",
+    "region": "Americas",
+    "subregion": "South America",
+    "flag": "🇧🇷"
+  },
+  "Cambodia": {
+    "id": "KH",
+    "name": "Cambodia",
+    "region": "Asia",
+    "subregion": "South-Eastern Asia",
+    "flag": "🇰🇭"
+  },
+  "Egypt": {
+    "id": "EG",
+    "name": "Egypt",
+    "region": "Africa",
+    "subregion": "Northern Africa",
+    "flag": "🇪🇬"
+  },
+  "Georgia": {
+    "id": "GE",
+    "name": "Georgia",
+    "region": "Asia",
+    "subregion": "Western Asia",
+    "flag": "🇬🇪"
+  },
+  "Greece": {
+    "id": "GR",
+    "name": "Greece",
+    "region": "Europe",
+    "subregion": "Southern Europe",
+    "flag": "🇬🇷"
+  },
+  "Nepal": {
+    "id": "NP",
+    "name": "Nepal",
+    "region": "Asia",
+    "subregion": "Southern Asia",
+    "flag": "🇳🇵"
+  },
+  "North Macedonia": {
+    "id": "MK",
+    "name": "North Macedonia",
+    "region": "Europe",
+    "subregion": "Southern Europe",
+    "flag": "🇲🇰"
+  },
+  "Norway": {
+    "id": "NO",
+    "name": "Norway",
+    "region": "Europe",
+    "subregion": "Northern Europe",
+    "flag": "🇳🇴"
+  },
+  "Romania": {
+    "id": "RO",
+    "name": "Romania",
+    "region": "Europe",
+    "subregion": "Eastern Europe",
+    "flag": "🇷🇴"
+  },
+  "Sri Lanka": {
+    "id": "LK",
+    "name": "Sri Lanka",
+    "region": "Asia",
+    "subregion": "Southern Asia",
+    "flag": "🇱🇰"
+  },
+  "Switzerland": {
+    "id": "CH",
+    "name": "Switzerland",
+    "region": "Europe",
+    "subregion": "Western Europe",
+    "flag": "🇨🇭"
+  },
+  "Denmark": {
+    "id": "DK",
+    "name": "Denmark",
+    "region": "Europe",
+    "subregion": "Northern Europe",
+    "flag": "🇩🇰"
+  },
+  "Estonia": {
+    "id": "EE",
+    "name": "Estonia",
+    "region": "Europe",
+    "subregion": "Northern Europe",
+    "flag": "🇪🇪"
+  },
+  "Netherlands": {
+    "id": "NL",
+    "name": "Netherlands",
+    "region": "Europe",
+    "subregion": "Western Europe",
+    "flag": "🇳🇱"
+  },
+  "San Marino": {
+    "id": "SM",
+    "name": "San Marino",
+    "region": "Europe",
+    "subregion": "Southern Europe",
+    "flag": "🇸🇲"
+  },
+  "Iran (Islamic Republic of)": {
+    "id": "IR",
+    "name": "Iran (Islamic Republic of)",
+    "region": "Asia",
+    "subregion": "Southern Asia",
+    "flag": "🇮🇷"
+  },
+  "Republic of Korea": {
+    "id": "KR",
+    "name": "Korea (Republic of)",
+    "region": "Asia",
+    "subregion": "Eastern Asia",
+    "flag": "🇰🇷"
+  },
+  "Hong Kong SAR": {
+    "id": "HK",
+    "name": "Hong Kong",
+    "region": "Asia",
+    "subregion": "Eastern Asia",
+    "flag": "🇭🇰"
+  },
+  "Iceland": {
+    "id": "IS",
+    "name": "Iceland",
+    "region": "Europe",
+    "subregion": "Northern Europe",
+    "flag": "🇮🇸"
+  },
+  "Taipei and environs": {
+    "id": "TW",
+    "name": "Taiwan, Province of China",
+    "region": "Asia",
+    "subregion": "Eastern Asia",
+    "flag": "🇹🇼"
+  },
+  "Czech Republic": {
+    "id": "CZ",
+    "name": "Czech Republic",
+    "region": "Europe",
+    "subregion": "Eastern Europe",
+    "flag": "🇨🇿"
+  },
+  "Portugal": {
+    "id": "PT",
+    "name": "Portugal",
+    "region": "Europe",
+    "subregion": "Southern Europe",
+    "flag": "🇵🇹"
+  },
+  "Ireland": {
+    "id": "IE",
+    "name": "Ireland",
+    "region": "Europe",
+    "subregion": "Northern Europe",
+    "flag": "🇮🇪"
+  },
+  "Slovenia": {
+    "id": "SI",
+    "name": "Slovenia",
+    "region": "Europe",
+    "subregion": "Southern Europe",
+    "flag": "🇸🇮"
+  },
+  "Viet Nam": {
+    "id": "VN",
+    "name": "Viet Nam",
+    "region": "Asia",
+    "subregion": "South-Eastern Asia",
+    "flag": "🇻🇳"
+  },
+  "Indonesia": {
+    "id": "ID",
+    "name": "Indonesia",
+    "region": "Asia",
+    "subregion": "South-Eastern Asia",
+    "flag": "🇮🇩"
+  },
+  "occupied Palestinian territory": {
+    "id": "PS",
+    "name": "Palestine, State of",
+    "region": "Asia",
+    "subregion": "Western Asia",
+    "flag": "🇵🇸"
+  },
+  "Qatar": {
+    "id": "QA",
+    "name": "Qatar",
+    "region": "Asia",
+    "subregion": "Western Asia",
+    "flag": "🇶🇦"
+  },
+  "Poland": {
+    "id": "PL",
+    "name": "Poland",
+    "region": "Europe",
+    "subregion": "Eastern Europe",
+    "flag": "🇵🇱"
+  },
+  "Saudi Arabia": {
+    "id": "SA",
+    "name": "Saudi Arabia",
+    "region": "Asia",
+    "subregion": "Western Asia",
+    "flag": "🇸🇦"
+  },
+  "Argentina": {
+    "id": "AR",
+    "name": "Argentina",
+    "region": "Americas",
+    "subregion": "South America",
+    "flag": "🇦🇷"
+  },
+  "Ecuador": {
+    "id": "EC",
+    "name": "Ecuador",
+    "region": "Americas",
+    "subregion": "South America",
+    "flag": "🇪🇨"
+  },
+  "Chile": {
+    "id": "CL",
+    "name": "Chile",
+    "region": "Americas",
+    "subregion": "South America",
+    "flag": "🇨🇱"
+  },
+  "Azerbaijan": {
+    "id": "AZ",
+    "name": "Azerbaijan",
+    "region": "Asia",
+    "subregion": "Western Asia",
+    "flag": "🇦🇿"
+  },
+  "Peru": {
+    "id": "PE",
+    "name": "Peru",
+    "region": "Americas",
+    "subregion": "South America",
+    "flag": "🇵🇪"
+  },
+  "Albania": {
+    "id": "AL",
+    "name": "Albania",
+    "region": "Europe",
+    "subregion": "Southern Europe",
+    "flag": "🇦🇱"
+  },
+  "Macao SAR": {
+    "id": "MO",
+    "name": "Macao",
+    "region": "Asia",
+    "subregion": "Eastern Asia",
+    "flag": "🇲🇴"
+  },
+  "Russian Federation": {
+    "id": "RU",
+    "name": "Russian Federation",
+    "region": "Europe",
+    "subregion": "Eastern Europe",
+    "flag": "🇷🇺"
+  },
+  "Belarus": {
+    "id": "BY",
+    "name": "Belarus",
+    "region": "Europe",
+    "subregion": "Eastern Europe",
+    "flag": "🇧🇾"
+  },
+  "Costa Rica": {
+    "id": "CR",
+    "name": "Costa Rica",
+    "region": "Americas",
+    "subregion": "Central America",
+    "flag": "🇨🇷"
+  },
+  "Hungary": {
+    "id": "HU",
+    "name": "Hungary",
+    "region": "Europe",
+    "subregion": "Eastern Europe",
+    "flag": "🇭🇺"
+  },
+  "Latvia": {
+    "id": "LV",
+    "name": "Latvia",
+    "region": "Europe",
+    "subregion": "Northern Europe",
+    "flag": "🇱🇻"
+  },
+  "Mexico": {
+    "id": "MX",
+    "name": "Mexico",
+    "region": "Americas",
+    "subregion": "Central America",
+    "flag": "🇲🇽"
+  },
+  "Slovakia": {
+    "id": "SK",
+    "name": "Slovakia",
+    "region": "Europe",
+    "subregion": "Eastern Europe",
+    "flag": "🇸🇰"
+  },
+  "South Africa": {
+    "id": "ZA",
+    "name": "South Africa",
+    "region": "Africa",
+    "subregion": "Southern Africa",
+    "flag": "🇿🇦"
+  },
+  "Maldives": {
+    "id": "MV",
+    "name": "Maldives",
+    "region": "Asia",
+    "subregion": "Southern Asia",
+    "flag": "🇲🇻"
+  },
+  "Bosnia and Herzegovina": {
+    "id": "BA",
+    "name": "Bosnia and Herzegovina",
+    "region": "Europe",
+    "subregion": "Southern Europe",
+    "flag": "🇧🇦"
+  },
+  "Dominican Republic": {
+    "id": "DO",
+    "name": "Dominican Republic",
+    "region": "Americas",
+    "subregion": "Caribbean",
+    "flag": "🇩🇴"
+  },
+  "French Guiana": {
+    "id": "GF",
+    "name": "French Guiana",
+    "region": "Americas",
+    "subregion": "South America",
+    "flag": "🇬🇫"
+  },
+  "Luxembourg": {
+    "id": "LU",
+    "name": "Luxembourg",
+    "region": "Europe",
+    "subregion": "Western Europe",
+    "flag": "🇱🇺"
+  },
+  "Malta": {
+    "id": "MT",
+    "name": "Malta",
+    "region": "Europe",
+    "subregion": "Southern Europe",
+    "flag": "🇲🇹"
+  },
+  "New Zealand": {
+    "id": "NZ",
+    "name": "New Zealand",
+    "region": "Oceania",
+    "subregion": "Australia and New Zealand",
+    "flag": "🇳🇿"
+  },
+  "Serbia": {
+    "id": "RS",
+    "name": "Serbia",
+    "region": "Europe",
+    "subregion": "Southern Europe",
+    "flag": "🇷🇸"
+  },
+  "Tunisia": {
+    "id": "TN",
+    "name": "Tunisia",
+    "region": "Africa",
+    "subregion": "Northern Africa",
+    "flag": "🇹🇳"
+  },
+  "Bulgaria": {
+    "id": "BG",
+    "name": "Bulgaria",
+    "region": "Europe",
+    "subregion": "Eastern Europe",
+    "flag": "🇧🇬"
+  },
+  "Senegal": {
+    "id": "SN",
+    "name": "Senegal",
+    "region": "Africa",
+    "subregion": "Western Africa",
+    "flag": "🇸🇳"
+  },
+  "Bangladesh": {
+    "id": "BD",
+    "name": "Bangladesh",
+    "region": "Asia",
+    "subregion": "Southern Asia",
+    "flag": "🇧🇩"
+  },
+  "Colombia": {
+    "id": "CO",
+    "name": "Colombia",
+    "region": "Americas",
+    "subregion": "South America",
+    "flag": "🇨🇴"
+  },
+  "Cyprus": {
+    "id": "CY",
+    "name": "Cyprus",
+    "region": "Asia",
+    "subregion": "Western Asia",
+    "flag": "🇨🇾"
+  },
+  "Morocco": {
+    "id": "MA",
+    "name": "Morocco",
+    "region": "Africa",
+    "subregion": "Northern Africa",
+    "flag": "🇲🇦"
+  },
+  "Republic of Moldova": {
+    "id": "MD",
+    "name": "Moldova (Republic of)",
+    "region": "Europe",
+    "subregion": "Eastern Europe",
+    "flag": "🇲🇩"
+  },
+  "Cameroon": {
+    "id": "CM",
+    "name": "Cameroon",
+    "region": "Africa",
+    "subregion": "Middle Africa",
+    "flag": "🇨🇲"
+  },
+  "Faroe Islands": {
+    "id": "FO",
+    "name": "Faroe Islands",
+    "region": "Europe",
+    "subregion": "Northern Europe",
+    "flag": "🇫🇴"
+  },
+  "Martinique": {
+    "id": "MQ",
+    "name": "Martinique",
+    "region": "Americas",
+    "subregion": "Caribbean",
+    "flag": "🇲🇶"
+  },
+  "Nigeria": {
+    "id": "NG",
+    "name": "Nigeria",
+    "region": "Africa",
+    "subregion": "Western Africa",
+    "flag": "🇳🇬"
+  },
+  "Saint Martin": {
+    "id": "MF",
+    "name": "Saint Martin (French part)",
+    "region": "Americas",
+    "subregion": "Caribbean",
+    "flag": "🇲🇫"
+  },
+  "Andorra": {
+    "id": "AD",
+    "name": "Andorra",
+    "region": "Europe",
+    "subregion": "Southern Europe",
+    "flag": "🇦🇩"
+  },
+  "Armenia": {
+    "id": "AM",
+    "name": "Armenia",
+    "region": "Asia",
+    "subregion": "Western Asia",
+    "flag": "🇦🇲"
+  },
+  "Bhutan": {
+    "id": "BT",
+    "name": "Bhutan",
+    "region": "Asia",
+    "subregion": "Southern Asia",
+    "flag": "🇧🇹"
+  },
+  "Brunei": {
+    "id": "BN",
+    "name": "Brunei Darussalam",
+    "region": "Asia",
+    "subregion": "South-Eastern Asia",
+    "flag": "🇧🇳"
+  },
+  "Burkina Faso": {
+    "id": "BF",
+    "name": "Burkina Faso",
+    "region": "Africa",
+    "subregion": "Western Africa",
+    "flag": "🇧🇫"
+  },
+  "Channel Islands": "",
+  "Gibraltar": {
+    "id": "GI",
+    "name": "Gibraltar",
+    "region": "Europe",
+    "subregion": "Southern Europe",
+    "flag": "🇬🇮"
+  },
+  "Holy See": {
+    "id": "VA",
+    "name": "Holy See",
+    "region": "Europe",
+    "subregion": "Southern Europe",
+    "flag": "🇻🇦"
+  },
+  "Jordan": {
+    "id": "JO",
+    "name": "Jordan",
+    "region": "Asia",
+    "subregion": "Western Asia",
+    "flag": "🇯🇴"
+  },
+  "Liechtenstein": {
+    "id": "LI",
+    "name": "Liechtenstein",
+    "region": "Europe",
+    "subregion": "Western Europe",
+    "flag": "🇱🇮"
+  },
+  "Lithuania": {
+    "id": "LT",
+    "name": "Lithuania",
+    "region": "Europe",
+    "subregion": "Northern Europe",
+    "flag": "🇱🇹"
+  },
+  "Monaco": {
+    "id": "MC",
+    "name": "Monaco",
+    "region": "Europe",
+    "subregion": "Western Europe",
+    "flag": "🇲🇨"
+  },
+  "Mongolia": {
+    "id": "MN",
+    "name": "Mongolia",
+    "region": "Asia",
+    "subregion": "Eastern Asia",
+    "flag": "🇲🇳"
+  },
+  "Panama": {
+    "id": "PA",
+    "name": "Panama",
+    "region": "Americas",
+    "subregion": "Central America",
+    "flag": "🇵🇦"
+  },
+  "Paraguay": {
+    "id": "PY",
+    "name": "Paraguay",
+    "region": "Americas",
+    "subregion": "South America",
+    "flag": "🇵🇾"
+  },
+  "Saint Barthelemy": {
+    "id": "BL",
+    "name": "Saint Barthélemy",
+    "region": "Americas",
+    "subregion": "Caribbean",
+    "flag": "🇧🇱"
+  },
+  "Togo": {
+    "id": "TG",
+    "name": "Togo",
+    "region": "Africa",
+    "subregion": "Western Africa",
+    "flag": "🇹🇬"
+  },
+  "Ukraine": {
+    "id": "UA",
+    "name": "Ukraine",
+    "region": "Europe",
+    "subregion": "Eastern Europe",
+    "flag": "🇺🇦"
+  },
+  "China": {
+    "id": "CN",
+    "name": "China",
+    "region": "Asia",
+    "subregion": "Eastern Asia",
+    "flag": "🇨🇳"
+  },
+  "Korea, South": {
+    "id": "KR",
+    "name": "Korea (Republic of)",
+    "region": "Asia",
+    "subregion": "Eastern Asia",
+    "flag": "🇰🇷"
+  },
+  "Cruise Ship": "",
+  "United Kingdom": {
+    "id": "GB",
+    "name": "United Kingdom of Great Britain and Northern Ireland",
+    "region": "Europe",
+    "subregion": "Northern Europe",
+    "flag": "🇬🇧"
+  },
+  "Czechia": {
+    "id": "CZ",
+    "name": "Czech Republic",
+    "region": "Europe",
+    "subregion": "Eastern Europe",
+    "flag": "🇨🇿"
+  },
+  "Taiwan*": {
+    "id": "TW",
+    "name": "Taiwan, Province of China",
+    "region": "Asia",
+    "subregion": "Eastern Asia",
+    "flag": "🇹🇼"
+  },
+  "Moldova": {
+    "id": "MD",
+    "name": "Moldova (Republic of)",
+    "region": "Europe",
+    "subregion": "Eastern Europe",
+    "flag": "🇲🇩"
+  },
+  "Bolivia": {
+    "id": "BO",
+    "name": "Bolivia (Plurinational State of)",
+    "region": "Americas",
+    "subregion": "South America",
+    "flag": "🇧🇴"
+  },
+  "Honduras": {
+    "id": "HN",
+    "name": "Honduras",
+    "region": "Americas",
+    "subregion": "Central America",
+    "flag": "🇭🇳"
+  },
+  "Congo (Kinshasa)": {
+    "id": "CG",
+    "name": "Congo",
+    "region": "Africa",
+    "subregion": "Middle Africa",
+    "flag": "🇨🇬"
+  },
+  "Cote d'Ivoire": {
+    "id": "CI",
+    "name": "Côte d'Ivoire",
+    "region": "Africa",
+    "subregion": "Western Africa",
+    "flag": "🇨🇮"
+  },
+  "Jamaica": {
+    "id": "JM",
+    "name": "Jamaica",
+    "region": "Americas",
+    "subregion": "Caribbean",
+    "flag": "🇯🇲"
+  },
+  "Reunion": {
+    "id": "RE",
+    "name": "Réunion",
+    "region": "Africa",
+    "subregion": "Eastern Africa",
+    "flag": "🇷🇪"
+  },
+  "Turkey": {
+    "id": "TR",
+    "name": "Turkey",
+    "region": "Asia",
+    "subregion": "Western Asia",
+    "flag": "🇹🇷"
+  },
+  "Palestine": {
+    "id": "PS",
+    "name": "Palestine, State of",
+    "region": "Asia",
+    "subregion": "Western Asia",
+    "flag": "🇵🇸"
+  },
+  "Vatican City": {
+    "id": "VA",
+    "name": "Holy See",
+    "region": "Europe",
+    "subregion": "Southern Europe",
+    "flag": "🇻🇦"
+  },
+  "Ivory Coast": {
+    "id": "CI",
+    "name": "Côte d'Ivoire",
+    "region": "Africa",
+    "subregion": "Western Africa",
+    "flag": "🇨🇮"
+  },
+  "Cuba": {
+    "id": "CU",
+    "name": "Cuba",
+    "region": "Americas",
+    "subregion": "Caribbean",
+    "flag": "🇨🇺"
+  },
+  "Guyana": {
+    "id": "GY",
+    "name": "Guyana",
+    "region": "Americas",
+    "subregion": "South America",
+    "flag": "🇬🇾"
+  },
+  "North Ireland": {
+    "id": "GB",
+    "name": "United Kingdom of Great Britain and Northern Ireland",
+    "region": "Europe",
+    "subregion": "Northern Europe",
+    "flag": "🇬🇧"
+  },
+  "St. Martin": "",
+  "Republic of Ireland": {
+    "id": "IE",
+    "name": "Ireland",
+    "region": "Europe",
+    "subregion": "Northern Europe",
+    "flag": "🇮🇪"
+  }
 }

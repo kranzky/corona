@@ -2,12 +2,20 @@ GEM
   remote: https://rubygems.org/
   specs:
     byebug (11.1.1)
+    countries (3.0.1)
+      i18n_data (~> 0.10.0)
+      sixarm_ruby_unaccent (~> 1.1)
+      unicode_utils (~> 1.4)
+    i18n_data (0.10.0)
+    sixarm_ruby_unaccent (1.2.0)
+    unicode_utils (1.4.0)
 
 PLATFORMS
   ruby
 
 DEPENDENCIES
   byebug (~> 11.1.1)
+  countries (~> 3.0.1)
 
 RUBY VERSION
    ruby 2.7.0p0
