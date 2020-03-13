@@ -1,11 +1,13 @@
 GEM
   remote: https://rubygems.org/
   specs:
+    byebug (11.1.1)
 
 PLATFORMS
   ruby
 
 DEPENDENCIES
+  byebug (~> 11.1.1)
 
 RUBY VERSION
    ruby 2.7.0p0
