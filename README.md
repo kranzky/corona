@@ -1,7 +1,9 @@
 Corona
 ======
 
-Static JSON API for the Johns Hopkins COVID-19 daily case reports.
+Static JSON API for the Johns Hopkins CSSE data.
+
+Visit https://corona.kranzky.com to access the API.
 
 Copyright
 ---------
