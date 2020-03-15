@@ -121,6 +121,21 @@ def city_acronyms(data)
   end
 end
 
+def regenerate_keys(data)
+  data.each do |key, value|
+    next if value.length.zero?
+    next unless value.is_a?(Hash)
+    data[key] = regenerate_keys(value)
+  end
+  data.transform_keys do |key|
+    if data[key].is_a?(Hash)
+      data.dig(key, :id) || key
+    else
+      key
+    end
+  end
+end
+
 root = ARGV[0] || ENV.fetch('COVID19_PATH', nil) || File.join('..', 'COVID-19')
 path = File.join(root, 'csse_covid_19_data', 'csse_covid_19_time_series')
 raise "No such directory: #{path}" unless Dir.exist?(path)
@@ -158,6 +173,8 @@ File.write('world.json', JSON.pretty_generate(world))
 }
 
 city_acronyms(world)
+world = regenerate_keys(world)
+debugger
 # TODO: iterate to update keys to be IDs instead of names
 # TODO: iterate to create a series at all nodes that don't have one
 # TODO: generate directory of json data, including one date for "latest"
