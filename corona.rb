@@ -5,6 +5,7 @@ require 'csv'
 require 'json'
 require 'countries'
 require 'acronym'
+require 'fileutils'
 require 'byebug'
 
 COUNTRY_MAP = {
@@ -228,9 +229,115 @@ end
 def generate_metadata(data)
 end
 
-def write_files(world)
-  # create a directory named www
-  # write index.json
+def write_file(path, data)
+  FileUtils.mkdir_p(File.dirname(path))
+  data[:source] = {
+    uri: "https://github.com/CSSEGISandData/COVID-19"
+  }
+  data[:home] = {
+    uri: "https://github.com/kranzky/corona"
+  }
+  File.write(path, JSON.pretty_generate(data))
+end
+
+def write_state(state, root, prefix)
+  index = {
+    id: state[:id],
+    name: state[:name],
+    series: state[:series]
+  }
+  write_file(File.join(root, 'index.json'), index)
+end
+
+def write_country(country, root, prefix)
+  states = {}
+  country[:states].each do |key, value|
+    next if key == :series
+    id = key.downcase
+    uri = File.join(prefix, id)
+    write_state(value, File.join(root, id), uri)
+    states[id] = {
+      id: key,
+      name: value[:name],
+      uri: uri
+    }
+  end
+  index = {
+    id: country[:id],
+    name: country[:name],
+    flag: country[:flag],
+    states: states,
+    series: country[:series]
+  }
+  write_file(File.join(root, 'index.json'), index)
+end
+
+def write_subregion(subregion, root, prefix)
+  countries = {}
+  subregion[:countries].each do |key, value|
+    next if key == :series
+    id = key.downcase
+    uri = File.join(prefix, id)
+    write_country(value, File.join(root, id), uri)
+    countries[id] = {
+      id: key,
+      name: value[:name],
+      flag: value[:flag],
+      uri: uri
+    }
+  end
+  index = {
+    id: subregion[:id],
+    name: subregion[:name],
+    countries: countries,
+    series: subregion[:series]
+  }
+  write_file(File.join(root, 'index.json'), index)
+end
+
+def write_region(region, root, prefix)
+  subregions = {}
+  region[:subregions].each do |key, value|
+    next if key == :series
+    id = key.downcase
+    uri = File.join(prefix, id)
+    write_subregion(value, File.join(root, id), uri)
+    subregions[id] = {
+      id: key,
+      name: value[:name],
+      uri: uri
+    }
+  end
+  index = {
+    id: region[:id],
+    name: region[:name],
+    subregions: subregions,
+    series: region[:series]
+  }
+  write_file(File.join(root, 'index.json'), index)
+end
+
+def write_world(world, root, prefix)
+  regions = {}
+  world.each do |key, value|
+    next if key == :series
+    id = key.downcase
+    uri = File.join(prefix, id)
+    write_region(value, File.join(root, id), uri)
+    regions[id] = {
+      name: value[:name],
+      uri: uri
+    }
+  end
+  index = {
+    name: 'Earth',
+    regions: regions,
+    series: world[:series]
+  }
+  write_file(File.join(root, 'index.json'), index)
+end
+
+def generate_badges(world)
 end
 
 root = ARGV[0] || ENV.fetch('COVID19_PATH', nil) || File.join('..', 'COVID-19')
@@ -255,9 +362,7 @@ state_acronyms(world)
 city_acronyms(world)
 world = regenerate_keys(world)
 generate_series(world)
-show_world(world)
 generate_metadata(world)
-write_files(world)
-debugger
-File.write('world.json', JSON.pretty_generate(world))
-# TODO: generate PNG badges for trend (node) and summary (children)
+show_world(world)
+write_world(world, 'www', '')
+generate_badges(world)
