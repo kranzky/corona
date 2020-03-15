@@ -246,6 +246,7 @@ def write_state(state, root, prefix)
     name: state[:name],
     series: state[:series]
   }
+  write_file("#{root}.json", index)
   write_file(File.join(root, 'index.json'), index)
 end
 
@@ -259,7 +260,7 @@ def write_country(country, root, prefix)
     states[id] = {
       id: key,
       name: value[:name],
-      uri: uri
+      uri: "#{uri}.json"
     }
   end
   index = {
@@ -269,6 +270,7 @@ def write_country(country, root, prefix)
     states: states,
     series: country[:series]
   }
+  write_file("#{root}.json", index)
   write_file(File.join(root, 'index.json'), index)
 end
 
@@ -283,7 +285,7 @@ def write_subregion(subregion, root, prefix)
       id: key,
       name: value[:name],
       flag: value[:flag],
-      uri: uri
+      uri: "#{uri}.json"
     }
   end
   index = {
@@ -292,6 +294,7 @@ def write_subregion(subregion, root, prefix)
     countries: countries,
     series: subregion[:series]
   }
+  write_file("#{root}.json", index)
   write_file(File.join(root, 'index.json'), index)
 end
 
@@ -305,7 +308,7 @@ def write_region(region, root, prefix)
     subregions[id] = {
       id: key,
       name: value[:name],
-      uri: uri
+      uri: "#{uri}.json"
     }
   end
   index = {
@@ -314,6 +317,7 @@ def write_region(region, root, prefix)
     subregions: subregions,
     series: region[:series]
   }
+  write_file("#{root}.json", index)
   write_file(File.join(root, 'index.json'), index)
 end
 
@@ -326,7 +330,7 @@ def write_world(world, root, prefix)
     write_region(value, File.join(root, id), uri)
     regions[id] = {
       name: value[:name],
-      uri: uri
+      uri: "#{uri}.json"
     }
   end
   index = {
