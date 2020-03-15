@@ -223,6 +223,14 @@ def generate_series(data)
     next if key == :series
     series = merge_series(series, generate_series(value))
   end
+  unless data[:series].nil? || series.nil?
+    data[:series].each do |key, value|
+      [:confirmed, :deaths, :recovered].each do |status|
+        next unless value[status][:total].zero?
+        value[status][:total] = series[key][status][:total]
+      end
+    end
+  end
   data[:series] ||= series
 end
 
@@ -235,15 +243,15 @@ def generate_metadata(data)
   end
   return if data[:series].nil?
   prev = {
-    confirmed: [0,0,0,0,0,0],
-    deaths: [0,0,0,0,0,0],
-    recovered: [0,0,0,0,0,0]
+    confirmed: [0,0,0,0],
+    deaths: [0,0,0,0],
+    recovered: [0,0,0,0]
   }
   data[:series].each do |key, value|
     [:confirmed, :deaths, :recovered].each do |status|
       total = value[status][:total]
-      prev_delta = prev[status][3] - prev[status][0]
-      this_delta = total - prev[status][3]
+      prev_delta = prev[status][2] - prev[status][0]
+      this_delta = total - prev[status][2]
       value[status][:growth] = this_delta.to_f / prev_delta.to_f if prev_delta != 0
       value[status][:delta] = total - prev[status].last
       prev[status] << total
