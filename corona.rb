@@ -227,6 +227,29 @@ def generate_series(data)
 end
 
 def generate_metadata(data)
+  data.each do |key, value|
+    next unless value.is_a?(Hash)
+    next if value.length.zero?
+    next if key == :series
+    generate_metadata(value)
+  end
+  return if data[:series].nil?
+  prev = {
+    confirmed: [0,0,0,0,0,0],
+    deaths: [0,0,0,0,0,0],
+    recovered: [0,0,0,0,0,0]
+  }
+  data[:series].each do |key, value|
+    [:confirmed, :deaths, :recovered].each do |status|
+      total = value[status][:total]
+      prev_delta = prev[status][3] - prev[status][0]
+      this_delta = total - prev[status][3]
+      value[status][:growth] = this_delta.to_f / prev_delta.to_f if prev_delta != 0
+      value[status][:delta] = total - prev[status].last
+      prev[status] << total
+      prev[status].shift
+    end
+  end
 end
 
 def write_file(path, data)
