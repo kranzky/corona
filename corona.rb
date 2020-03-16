@@ -293,6 +293,9 @@ def write_country(country, root, prefix)
       name: value[:name],
       uri: "#{uri}.json"
     }
+    value[:series].values.last.each do |key, value|
+      states[id][key] = value[:total]
+    end
   end
   index = {
     id: country[:id],
@@ -318,6 +321,9 @@ def write_subregion(subregion, root, prefix)
       flag: value[:flag],
       uri: "#{uri}.json"
     }
+    value[:series].values.last.each do |key, value|
+      countries[id][key] = value[:total]
+    end
   end
   index = {
     id: subregion[:id],
@@ -341,6 +347,9 @@ def write_region(region, root, prefix)
       name: value[:name],
       uri: "#{uri}.json"
     }
+    value[:series].values.last.each do |key, value|
+      subregions[id][key] = value[:total]
+    end
   end
   index = {
     id: region[:id],
@@ -363,6 +372,9 @@ def write_world(world, root, prefix)
       name: value[:name],
       uri: "#{uri}.json"
     }
+    value[:series].values.last.each do |key, value|
+      regions[id][key] = value[:total]
+    end
   end
   index = {
     name: 'Earth',
