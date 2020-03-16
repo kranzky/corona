@@ -301,7 +301,7 @@ def write_country(country, root, prefix)
     id: country[:id],
     name: country[:name],
     flag: country[:flag],
-    states: states,
+    states: Hash[states.sort_by { |key, value| value[:name] }],
     series: country[:series]
   }
   write_file("#{root}.json", index)
@@ -328,7 +328,7 @@ def write_subregion(subregion, root, prefix)
   index = {
     id: subregion[:id],
     name: subregion[:name],
-    countries: countries,
+    countries: Hash[countries.sort_by { |key, value| value[:name] }],
     series: subregion[:series]
   }
   write_file("#{root}.json", index)
@@ -354,7 +354,7 @@ def write_region(region, root, prefix)
   index = {
     id: region[:id],
     name: region[:name],
-    subregions: subregions,
+    subregions: Hash[subregions.sort_by { |key, value| value[:name] }],
     series: region[:series]
   }
   write_file("#{root}.json", index)
@@ -378,7 +378,7 @@ def write_world(world, root, prefix)
   end
   index = {
     name: 'Earth',
-    regions: regions,
+    regions: Hash[regions.sort_by { |key, value| value[:name] }],
     series: world[:series]
   }
   write_file(File.join(root, 'index.json'), index)
