@@ -14,7 +14,9 @@ URL = DATA.read
 COUNTRY_MAP = {
   'US' => 'United States',
   'Taiwan*' => 'Taiwan',
-  'Congo (Kinshasa)' => 'Congo'
+  'Republic of the Congo' => 'Congo',
+  'occupied Palestinian territory' => 'Palestine, State of',
+  'The Bahamas' => 'Bahamas'
 }
 
 REGION_MAP = {
