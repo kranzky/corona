@@ -1,7 +1,7 @@
-[![Global](https://corona.kranzky.com/badge.svg)](https://corona.kranzky.com/)
-[![Africa](https://corona.kranzky.com/af/badge.svg)](https://corona.kranzky.com/af.json)
-[![Italy](https://corona.kranzky.com/eu/seu/it/badge.svg)](https://corona.kranzky.com/eu/seu/it.json)
-[![California](https://corona.kranzky.com/am/na/us/ca/badge.svg)](https://corona.kranzky.com/am/na/us/ca.json)
+[![Global](https://corona.kranzky.com/badge.svg?update)](https://corona.kranzky.com/)
+[![Africa](https://corona.kranzky.com/af/badge.svg?update)](https://corona.kranzky.com/af.json)
+[![Italy](https://corona.kranzky.com/eu/seu/it/badge.svg?update)](https://corona.kranzky.com/eu/seu/it.json)
+[![California](https://corona.kranzky.com/am/na/us/ca/badge.svg?update)](https://corona.kranzky.com/am/na/us/ca.json)
 
 Corona
 ======
