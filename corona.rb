@@ -411,10 +411,11 @@ def generate_badges(data, root)
   end
   return if data[:series].nil?
   today = nil
-  data[:series].each do |key, value|
+  data[:series].keys.reverse.each do |key|
+    value = data[:series][key]
     path = File.join(root, "#{key}.svg")
+    next if !today.nil? && File.exist?(path)
     today = path
-    next if File.exist?(path)
     name = data[:name]&.downcase || "global"
     delta = value[:confirmed][:delta].to_s
     total = value[:confirmed][:total].to_s

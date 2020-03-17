@@ -1,3 +1,8 @@
+[![Global](https://corona.kranzky.com/badge.svg)](https://corona.kranzky.com/)
+[![Africa](https://corona.kranzky.com/badge.svg)](https://corona.kranzky.com/af.json)
+[![Italy](https://corona.kranzky.com/eu/seu/badge.svg)](https://corona.kranzky.com/eu/seu/it.json)
+[![California](https://corona.kranzky.com/am/na/us/badge.svg)](https://corona.kranzky.com/am/na/us/ca.json)
+
 Corona
 ======
 
