@@ -13,8 +13,13 @@
   .main.container {
     margin-top: 7em;
   }
+  #github {
+    padding: 0;
+  }
+  #github i {
+    margin: 0;
+  }
 </style>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.js"></script>
 </head>
 <body>
   <div class="ui fixed inverted menu">
@@ -26,9 +31,9 @@
       <a href="/countries.html" class="item">Compare Countries</a>
       <a href="/api.json" class="item">JSON API</a>
       <a href="https://github.com/CSSEGISandData/COVID-19" class="item" target="_blank">Data Source</a>
-			<div class="right item">
+			<div class="right item" id="github">
         <a href="https://github.com/kranzky/corona" class="item" target="_blank">
-          <i class="large github icon"></i>
+          <i class="big github icon"></i>
         </a>
 			</div>
     </div>
