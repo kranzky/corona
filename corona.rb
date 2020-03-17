@@ -6,7 +6,10 @@ require 'json'
 require 'countries'
 require 'acronym'
 require 'fileutils'
+require 'rest-client'
 require 'byebug'
+
+URL = DATA.read
 
 COUNTRY_MAP = {
   'US' => 'United States',
@@ -253,6 +256,7 @@ def generate_metadata(data)
       prev_delta = prev[status][1] - prev[status][0]
       this_delta = total - prev[status][1]
       value[status][:growth] = this_delta.to_f / prev_delta.to_f if prev_delta != 0
+      value[status][:growth] = 0 if value[status][:growth] <= 0
       value[status][:delta] = total - prev[status].last
       prev[status] << total
       prev[status].shift
@@ -275,6 +279,7 @@ def write_state(state, root, prefix)
   index = {
     id: state[:id],
     name: state[:name],
+    badge: File.join(prefix, 'badge.svg'),
     series: state[:series]
   }
   write_file("#{root}.json", index)
@@ -301,6 +306,7 @@ def write_country(country, root, prefix)
     id: country[:id],
     name: country[:name],
     flag: country[:flag],
+    badge: File.join(prefix, 'badge.svg'),
     states: Hash[states.sort_by { |key, value| value[:name] }],
     series: country[:series]
   }
@@ -328,6 +334,7 @@ def write_subregion(subregion, root, prefix)
   index = {
     id: subregion[:id],
     name: subregion[:name],
+    badge: File.join(prefix, 'badge.svg'),
     countries: Hash[countries.sort_by { |key, value| value[:name] }],
     series: subregion[:series]
   }
@@ -354,6 +361,7 @@ def write_region(region, root, prefix)
   index = {
     id: region[:id],
     name: region[:name],
+    badge: File.join(prefix, 'badge.svg'),
     subregions: Hash[subregions.sort_by { |key, value| value[:name] }],
     series: region[:series]
   }
@@ -377,14 +385,62 @@ def write_world(world, root, prefix)
     end
   end
   index = {
-    name: 'Earth',
+    name: 'Global',
+    badge: File.join(prefix, 'badge.svg'),
     regions: Hash[regions.sort_by { |key, value| value[:name] }],
     series: world[:series]
   }
   write_file(File.join(root, 'index.json'), index)
 end
 
-def generate_badges(world)
+def generate_badges(data, root)
+  data.each do |key, value|
+    next unless value.is_a?(Hash)
+    next if value.length.zero?
+    next if key == :series
+    if key.is_a?(Symbol)
+      value.each do |key, value|
+        next if key.is_a?(Symbol)
+        id = key.downcase
+        generate_badges(value, File.join(root, id))
+      end
+    else
+      id = key.downcase
+      generate_badges(value, File.join(root, id))
+    end
+  end
+  return if data[:series].nil?
+  today = nil
+  data[:series].each do |key, value|
+    path = File.join(root, "#{key}.svg")
+    today = path
+    next if File.exist?(path)
+    name = data[:name]&.downcase || "global"
+    delta = value[:confirmed][:delta].to_s
+    total = value[:confirmed][:total].to_s
+    colour =
+      case value[:confirmed][:growth]
+      when -Float::INFINITY..0.2
+        'success'
+      when 0.2..0.5
+        'informational'
+      when 0.5..0.9
+        'inactive'
+      when 0.9..1.2
+        'yellow'
+      when 1.2..1.5
+        'important'
+      when 1.5..Float::INFINITY
+        'critical'
+      end
+    url = URL.gsub('NAME', name).gsub('TOTAL', total).gsub('DELTA', delta).gsub('COLOUR', colour)
+    puts "Writing #{path}"
+    blob = RestClient.get(url)
+    File.open(path, 'wb') { |file| file.write(blob) }
+    sleep 1
+  end
+  return if today.nil?
+  FileUtils.cp(today, File.join(root, 'badge.svg'))
 end
 
 root = ARGV[0] || ENV.fetch('COVID19_PATH', nil) || File.join('..', 'COVID-19')
@@ -412,4 +468,7 @@ generate_series(world)
 generate_metadata(world)
 show_world(world)
 write_world(world, 'www', 'https://corona.kranzky.com')
-generate_badges(world)
+generate_badges(world, 'www')
+
+__END__
+https://img.shields.io/badge/NAME-+DELTA%20(TOTAL)-COLOUR?logo=data:image/png;base64,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
