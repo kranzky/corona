@@ -417,7 +417,7 @@ def generate_badges(data, root)
     value = data[:series][key]
     path = File.join(root, "#{key}.svg")
     next if !today.nil? && File.exist?(path)
-    today = path
+    today ||= path
     name = data[:name]&.downcase || "global"
     delta = value[:confirmed][:delta].to_s
     total = value[:confirmed][:total].to_s
@@ -436,7 +436,7 @@ def generate_badges(data, root)
       when 1.5..Float::INFINITY
         'critical'
       end
-    url = URL.gsub('NAME', name).gsub('TOTAL', total).gsub('DELTA', delta).gsub('COLOUR', colour)
+    url = URL.gsub('NAME', name.gsub(' ', '%20').gsub('TOTAL', total).gsub('DELTA', delta).gsub('COLOUR', colour)
     puts "Writing #{path}"
     blob = RestClient.get(url)
     File.open(path, 'wb') { |file| file.write(blob) }
