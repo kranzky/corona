@@ -417,8 +417,8 @@ def generate_badges(data, root)
   data[:series].keys.reverse.each do |key|
     value = data[:series][key]
     path = File.join(root, "#{key}.svg")
+    next if !today.nil? && File.exist?(path)
     today ||= path
-    next if File.exist?(path)
     name = data[:name]&.downcase || "global"
     delta =
       if value[:confirmed][:delta] < 0
