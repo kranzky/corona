@@ -16,7 +16,8 @@ COUNTRY_MAP = {
   'Taiwan*' => 'Taiwan',
   'Republic of the Congo' => 'Congo',
   'occupied Palestinian territory' => 'Palestine, State of',
-  'The Bahamas' => 'Bahamas'
+  'The Bahamas' => 'Bahamas',
+  'The Gambia' => 'Gambia'
 }
 
 REGION_MAP = {
