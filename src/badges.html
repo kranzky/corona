@@ -36,6 +36,9 @@
   #filter {
     padding-top: 4.25rem;
   }
+  #badge {
+    height: 41px;
+  }
 </style>
 </head>
 <body>
@@ -76,6 +79,10 @@
   </div>
   <div class="ui main container">
     <h1>Status Badges</h1>
+    <div class="ui big image">
+      <img src="" id="badge">
+    </div>
+    <pre></pre>
   </div>
 </body>
 <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha256-pasqAKBDmFT4eHoN2ndd6lN370kFiGUFyTiUHWhU7k8=" crossorigin="anonymous"></script>
@@ -89,8 +96,11 @@
     loadPage();
   });
 
-  function refreshDisplay(data) {
-    console.log('whatever');
+  function refreshDisplay(uri, data, raw) {
+    $('#badge').attr('src', data.badge);
+    markdown = `[![${data.name}](${data.badge})](https://corona.kranzky.com/)`;
+    $('pre').text(markdown);
+    console.log(data);
   }
 </script>
 </html>

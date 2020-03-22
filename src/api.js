@@ -12,6 +12,7 @@ function loadRegions(uri) {
     .then(function (response) {
       $('#region .menu').empty();
       refreshDisplay(uri, response.data, response.request.responseText);
+      $('.main.container').show();
       if (!_.isEmpty(response.data.regions)) {    
         _.each(response.data.regions, function(value) {
           $('#region .menu').append(`<div class="item" data-value="${value.uri}">${value.name}</div>`);
@@ -30,6 +31,7 @@ function loadSubregions(uri) {
     .then(function (response) {
       $('#subregion .menu').empty();
       refreshDisplay(uri, response.data, response.request.responseText);
+      $('.main.container').show();
       if (!_.isEmpty(response.data.subregions)) {    
         _.each(response.data.subregions, function(value) {
           $('#subregion .menu').append(`<div class="item" data-value="${value.uri}">${value.name}</div>`);
@@ -48,6 +50,7 @@ function loadCountries(uri) {
     .then(function (response) {
       $('#country .menu').empty();
       refreshDisplay(uri, response.data, response.request.responseText);
+      $('.main.container').show();
       if (!_.isEmpty(response.data.countries)) {    
         _.each(response.data.countries, function(value) {
           $('#country .menu').append(`<div class="item" data-value="${value.uri}">${value.flag} ${value.name}</div>`);
@@ -66,6 +69,7 @@ function loadStates(uri) {
     .then(function (response) {
       $('#state .menu').empty();
       refreshDisplay(uri, response.data, response.request.responseText);
+      $('.main.container').show();
       if (!_.isEmpty(response.data.states)) {    
         _.each(response.data.states, function(value) {
           $('#state .menu').append(`<div class="item" data-value="${value.uri}">${value.name}</div>`);
@@ -82,6 +86,7 @@ function loadResults(uri) {
   axios.get(uri)
     .then(function (response) {
       refreshDisplay(uri, response.data, response.request.responseText);
+      $('.main.container').show();
     })
     .catch(function (error) {
       console.log(error);
@@ -92,6 +97,7 @@ function selectRegion(uri) {
   if (_.isEmpty(uri)) {
     return;
   }
+  $('.main.container').hide();
   $('#subregion').hide();
   $('#country').hide();
   $('#state').hide();
