@@ -7,9 +7,11 @@
 Corona
 ======
 
-Static JSON API and SVG badges for the Johns Hopkins CSSE data.  Visit https://corona.kranzky.com to access the API.
+Static charts, SVG badges, CSV export and JSON API for the Johns Hopkins CSSE data.
 
-Original data is available here: https://github.com/CSSEGISandData/COVID-19
+Available at: https://corona.kranzky.com
+
+Data source: https://github.com/CSSEGISandData/COVID-19
 
 Copyright
 ---------

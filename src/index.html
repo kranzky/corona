@@ -48,11 +48,11 @@
     <div class="ui container">
       <a href="/" class="header item">
         <img class="logo" src="virus.png">
-        COVID-19 Timeline
+        COVID-19 Charts
       </a>
       <a href="/countries.html" class="item">Compare Countries</a>
-      <a href="/badges.html" class="item">Status Badges</a>
-      <a href="/csv.html" class="item">CSV Download</a>
+      <a href="/badges.html" class="item">SVG Badges</a>
+      <a href="/csv.html" class="item">CSV Export</a>
       <a href="/api.html" class="item">JSON API</a>
       <a href="https://github.com/CSSEGISandData/COVID-19" class="item" target="_blank">Data Source</a>
       <div class="right item" id="github">
@@ -85,7 +85,7 @@
     </div>
   </div>
   <div class="ui main container">
-    <h1>COVID-19 Timeline</h1>
+    <h1>COVID-19 Charts</h1>
     <div id='chart'>
     </div>
     <div class="ui inverted dimmer">
@@ -133,9 +133,6 @@
       },
       title: {
         text: data.name
-      },
-      subtitle: {
-        text: 'COVID-19 Timeline'
       },
       exporting: {
         filename: 'chart'
