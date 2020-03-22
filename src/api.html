@@ -76,7 +76,7 @@
   </div>
   <div class="ui main container">
     <h1>JSON API</h1>
-    <a class="ui big basic blue label" id="link"">
+    <a class="ui big basic blue label" id="link" target="_blank">
       <i class="external icon"></i><span>...</span>
     </a>
     <pre></pre>
@@ -95,6 +95,7 @@
 
   function refreshDisplay(uri, data, raw) {
     $('#link span').text(uri);
+    $('#link').attr('href', uri);
     $('pre').text(raw);
   }
 </script>
