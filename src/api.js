@@ -56,7 +56,7 @@ function loadCountries(uri) {
       refreshDisplay(uri, response.data, response.request.responseText);
       if (!_.isEmpty(response.data.countries)) {    
         _.each(response.data.countries, function(value) {
-          $('#country .menu').append(`<div class="item" data-value="${value.uri}">${value.flag} ${value.name}</div>`);
+          $('#country .menu').append(`<div class="item" data-value="${value.uri}"><i class="${value.id.toLowerCase()} flag"></i>${value.name}</div>`);
         });
         $('#country').show();
       }
