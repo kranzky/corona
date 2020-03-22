@@ -108,6 +108,7 @@ function selectSubregion(uri) {
   if (_.isEmpty(uri)) {
     return;
   }
+  $('.main.container').hide();
   $('#country').hide();
   $('#state').hide();
   loadCountries(uri);
@@ -117,6 +118,7 @@ function selectCountry(uri) {
   if (_.isEmpty(uri)) {
     return;
   }
+  $('.main.container').hide();
   $('#state').hide();
   loadStates(uri);
 }
@@ -125,5 +127,6 @@ function selectState(uri) {
   if (_.isEmpty(uri)) {
     return;
   }
+  $('.main.container').hide();
   loadResults(uri);
 }
