@@ -1,3 +1,5 @@
+dimmer = $('.ui.dimmer');
+
 function loadPage() {
   $('#region').dropdown({ onChange: selectRegion });
   $('#subregion').dropdown({ onChange: selectSubregion });
@@ -12,16 +14,17 @@ function loadRegions(uri) {
     .then(function (response) {
       $('#region .menu').empty();
       refreshDisplay(uri, response.data, response.request.responseText);
-      $('.main.container').show();
       if (!_.isEmpty(response.data.regions)) {    
         _.each(response.data.regions, function(value) {
           $('#region .menu').append(`<div class="item" data-value="${value.uri}">${value.name}</div>`);
         });
         $('#region').show();
       }
+      dimmer.removeClass('active');
     })
     .catch(function (error) {
       console.log(error);
+      dimmer.removeClass('active');
     });
 }
 
@@ -31,16 +34,17 @@ function loadSubregions(uri) {
     .then(function (response) {
       $('#subregion .menu').empty();
       refreshDisplay(uri, response.data, response.request.responseText);
-      $('.main.container').show();
       if (!_.isEmpty(response.data.subregions)) {    
         _.each(response.data.subregions, function(value) {
           $('#subregion .menu').append(`<div class="item" data-value="${value.uri}">${value.name}</div>`);
         });
         $('#subregion').show();
       }
+      dimmer.removeClass('active');
     })
     .catch(function (error) {
       console.log(error);
+      dimmer.removeClass('active');
     });
 }
 
@@ -50,16 +54,17 @@ function loadCountries(uri) {
     .then(function (response) {
       $('#country .menu').empty();
       refreshDisplay(uri, response.data, response.request.responseText);
-      $('.main.container').show();
       if (!_.isEmpty(response.data.countries)) {    
         _.each(response.data.countries, function(value) {
           $('#country .menu').append(`<div class="item" data-value="${value.uri}">${value.flag} ${value.name}</div>`);
         });
         $('#country').show();
       }
+      dimmer.removeClass('active');
     })
     .catch(function (error) {
       console.log(error);
+      dimmer.removeClass('active');
     });
 }
 
@@ -69,16 +74,17 @@ function loadStates(uri) {
     .then(function (response) {
       $('#state .menu').empty();
       refreshDisplay(uri, response.data, response.request.responseText);
-      $('.main.container').show();
       if (!_.isEmpty(response.data.states)) {    
         _.each(response.data.states, function(value) {
           $('#state .menu').append(`<div class="item" data-value="${value.uri}">${value.name}</div>`);
         });
         $('#state').show();
       }
+      dimmer.removeClass('active');
     })
     .catch(function (error) {
       console.log(error);
+      dimmer.removeClass('active');
     });
 }
 
@@ -86,10 +92,11 @@ function loadResults(uri) {
   axios.get(uri)
     .then(function (response) {
       refreshDisplay(uri, response.data, response.request.responseText);
-      $('.main.container').show();
+      dimmer.removeClass('active');
     })
     .catch(function (error) {
       console.log(error);
+      dimmer.removeClass('active');
     });
 }
 
@@ -97,7 +104,7 @@ function selectRegion(uri) {
   if (_.isEmpty(uri)) {
     return;
   }
-  $('.main.container').hide();
+  dimmer.addClass('active');
   $('#subregion').hide();
   $('#country').hide();
   $('#state').hide();
@@ -108,7 +115,7 @@ function selectSubregion(uri) {
   if (_.isEmpty(uri)) {
     return;
   }
-  $('.main.container').hide();
+  dimmer.addClass('active');
   $('#country').hide();
   $('#state').hide();
   loadCountries(uri);
@@ -118,7 +125,7 @@ function selectCountry(uri) {
   if (_.isEmpty(uri)) {
     return;
   }
-  $('.main.container').hide();
+  dimmer.addClass('active');
   $('#state').hide();
   loadStates(uri);
 }
@@ -127,6 +134,6 @@ function selectState(uri) {
   if (_.isEmpty(uri)) {
     return;
   }
-  $('.main.container').hide();
+  dimmer.addClass('active');
   loadResults(uri);
 }

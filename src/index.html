@@ -83,6 +83,9 @@
     <h1>COVID-19 Timeline</h1>
     <div id='chart'>
     </div>
+    <div class="ui inverted dimmer">
+      <div class="ui large text loader">Loading...</div>
+    </div>
   </div>
 </body>
 <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha256-pasqAKBDmFT4eHoN2ndd6lN370kFiGUFyTiUHWhU7k8=" crossorigin="anonymous"></script>
@@ -108,7 +111,6 @@
       deaths.push([timestamp, value.deaths.total]);
       recovered.push([timestamp, value.recovered.total]);
     });
-    console.log(confirmed);
     chart = {
       chart: {
         type: 'spline',
