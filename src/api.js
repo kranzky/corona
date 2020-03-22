@@ -3,11 +3,7 @@ function loadPage() {
   $('#subregion').dropdown({ onChange: selectSubregion });
   $('#country').dropdown({ onChange: selectCountry });
   $('#state').dropdown({ onChange: selectState });
-  loadRegions("https://corona.kranzky.com/index.json");
-}
-
-function refreshDisplay(data) {
-  console.debug(data);
+  loadRegions("https://corona.kranzky.com/api.json");
 }
 
 function loadRegions(uri) {
@@ -15,7 +11,7 @@ function loadRegions(uri) {
   axios.get(uri)
     .then(function (response) {
       $('#region .menu').empty();
-      refreshDisplay(response.data);
+      refreshDisplay(uri, response.data, response.request.responseText);
       if (!_.isEmpty(response.data.regions)) {    
         _.each(response.data.regions, function(value) {
           $('#region .menu').append(`<div class="item" data-value="${value.uri}">${value.name}</div>`);
@@ -33,7 +29,7 @@ function loadSubregions(uri) {
   axios.get(uri)
     .then(function (response) {
       $('#subregion .menu').empty();
-      refreshDisplay(response.data);
+      refreshDisplay(uri, response.data, response.request.responseText);
       if (!_.isEmpty(response.data.subregions)) {    
         _.each(response.data.subregions, function(value) {
           $('#subregion .menu').append(`<div class="item" data-value="${value.uri}">${value.name}</div>`);
@@ -51,7 +47,7 @@ function loadCountries(uri) {
   axios.get(uri)
     .then(function (response) {
       $('#country .menu').empty();
-      refreshDisplay(response.data);
+      refreshDisplay(uri, response.data, response.request.responseText);
       if (!_.isEmpty(response.data.countries)) {    
         _.each(response.data.countries, function(value) {
           $('#country .menu').append(`<div class="item" data-value="${value.uri}">${value.flag} ${value.name}</div>`);
@@ -69,7 +65,7 @@ function loadStates(uri) {
   axios.get(uri)
     .then(function (response) {
       $('#state .menu').empty();
-      refreshDisplay(response.data);
+      refreshDisplay(uri, response.data, response.request.responseText);
       if (!_.isEmpty(response.data.states)) {    
         _.each(response.data.states, function(value) {
           $('#state .menu').append(`<div class="item" data-value="${value.uri}">${value.name}</div>`);
@@ -85,7 +81,7 @@ function loadStates(uri) {
 function loadResults(uri) {
   axios.get(uri)
     .then(function (response) {
-      refreshDisplay(response);
+      refreshDisplay(uri, response.data, response.request.responseText);
     })
     .catch(function (error) {
       console.log(error);

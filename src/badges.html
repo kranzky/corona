@@ -75,15 +75,7 @@
     </div>
   </div>
   <div class="ui main container">
-    <div class="ui negative icon message">
-      <i class="ban icon"></i>
-      <div class="content">
-        <div class="header">
-          Are you lost?
-        </div>
-        <p>Sorry, but that's an error.</p>
-      </div>
-    </div>
+    <h1>Status Badges</h1>
   </div>
 </body>
 <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha256-pasqAKBDmFT4eHoN2ndd6lN370kFiGUFyTiUHWhU7k8=" crossorigin="anonymous"></script>
@@ -92,4 +84,13 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.2/axios.min.js"></script>
 <script src="https://code.highcharts.com/highcharts.src.js"></script>
 <script src="/api.js"></script>
+<script>
+  $(document).ready(function() {
+    loadPage();
+  });
+
+  function refreshDisplay(data) {
+    console.log('whatever');
+  }
+</script>
 </html>
