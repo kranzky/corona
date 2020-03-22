@@ -23,6 +23,7 @@
 <meta name="msapplication-TileImage" content="/ms-icon-144x144.png">
 <meta name="theme-color" content="#ffffff">
 <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.css">
+<link rel="stylesheet" type="text/css" href="https://code.highcharts.com/css/highcharts.css">
 <style type="text/css">
   .ui.menu .item img.logo {
     margin-right: 0.5em;
@@ -36,6 +37,9 @@
   #filter {
     padding-top: 4.25rem;
     height: 36px;
+  }
+  #chart {
+    height: 700px;
   }
 </style>
 </head>
@@ -77,21 +81,96 @@
   </div>
   <div class="ui main container">
     <h1>COVID-19 Timeline</h1>
+    <div id='chart'>
+    </div>
   </div>
 </body>
 <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha256-pasqAKBDmFT4eHoN2ndd6lN370kFiGUFyTiUHWhU7k8=" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.15/lodash.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.2/axios.min.js"></script>
-<script src="https://code.highcharts.com/highcharts.src.js"></script>
+<script src="https://code.highcharts.com/highcharts.js"></script>
+<script src="https://code.highcharts.com/modules/exporting.js"></script>
+<script src="https://code.highcharts.com/modules/offline-exporting.js"></script>
 <script src="/api.js"></script>
 <script>
   $(document).ready(function() {
     loadPage();
   });
 
-  function refreshDisplay(data) {
-    console.log('whatever');
+  function refreshDisplay(uri, data, raw) {
+    confirmed = [];
+    deaths = [];
+    recovered = [];
+    _.each(data.series, function(value, key) {
+      timestamp = Date.parse(key);
+      confirmed.push([timestamp, value.confirmed.total]);
+      deaths.push([timestamp, value.deaths.total]);
+      recovered.push([timestamp, value.recovered.total]);
+    });
+    console.log(confirmed);
+    chart = {
+      chart: {
+        type: 'spline',
+        zoomType: 'x'
+      },
+      legend: {
+        layout: 'horizontal',
+        align: 'center',
+        verticalAlign: 'bottom',
+        floating: false,
+        x: 0
+      },
+      credits: {
+        enabled: false
+      },
+      title: {
+        text: data.name
+      },
+      subtitle: {
+        text: 'COVID-19 Timeline'
+      },
+      exporting: {
+        filename: 'chart'
+      },
+      plotOptions: {
+        series: {
+          marker: {
+            enabled: false
+          }
+        }
+      },
+      xAxis: {
+        tickPixelInterval: 120,
+        type: 'datetime'
+      },
+      yAxis: {
+        title: {
+          text: 'Number of People'
+        }
+      },
+      dateTimeLabelFormats: {
+        day: '%e %b, %Y',
+        week: '%e %b, %Y',
+        month: '%b %Y',
+        year: '%Y'
+      },
+      series: [
+        {
+          name: 'Confirmed',
+          data: confirmed
+        },
+        {
+          name: 'Deaths',
+          data: deaths
+        },
+        {
+          name: 'Recovered',
+          data: recovered
+        }
+      ]
+    };
+    Highcharts.chart('chart', chart);
   }
 </script>
 </html>
