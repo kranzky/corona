@@ -129,7 +129,7 @@
   function refreshDisplay(uri, data, raw) {
     table.clear();
     _.each(data.series, function(value, key) {
-      table.row.add([key, value.confirmed.total, value.deaths.total, value.recovered.total]);
+      table.row.add([key, value.confirmed.delta, value.deaths.delta, value.recovered.delta]);
     });
     table.draw();
   }
