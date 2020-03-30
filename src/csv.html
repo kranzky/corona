@@ -93,6 +93,7 @@
           <th>Date</th>
           <th>Confirmed</th>
           <th>Deaths</th>
+          <th>Recovered</th>
         </tr>
       </thead>
       <tbody>
@@ -128,7 +129,7 @@
   function refreshDisplay(uri, data, raw) {
     table.clear();
     _.each(data.series, function(value, key) {
-      table.row.add([key, value.confirmed.delta, value.deaths.delta]);
+      table.row.add([key, value.confirmed.delta, value.deaths.delta, value.recovered.delta]);
     });
     table.draw();
   }
