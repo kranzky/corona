@@ -19,7 +19,8 @@ COUNTRY_MAP = {
   'The Bahamas' => 'Bahamas',
   'The Gambia' => 'Gambia',
   'Bahamas, The' => 'Bahamas',
-  'Gambia, The' => 'Gambia'
+  'Gambia, The' => 'Gambia',
+  'Burma' => 'Myanmar'
 }
 
 REGION_MAP = {
@@ -53,27 +54,32 @@ SUBREGION_MAP = {
 }
 
 def add_row(world, row)
-  region = row['Country/Region']
+  region = row['Country/Region'] || row['Country_Region']
   region = COUNTRY_MAP[region] if COUNTRY_MAP.has_key?(region)
   country = ISO3166::Country.find_country_by_name(region)
   if country.nil?
     puts "Skipping: #{row}" 
     return
   end
-  province = row['Province/State']
+  province = row['Province/State'] || row['Province_State']
   return nil if province =~ /Princess/
   state_id = nil
   city_name = nil
   unless province.nil?
     city_name, state_id = province.split(',').map(&:strip)
     if state_id.nil?
-      city_name = nil
+      city_name = row['Admin2']
       state_map = Hash[country.states.map { |key, value| [value.name, key] }]
       state_id = state_map[province] || province
     else
       state_id = "DC" if state_id == "D.C."
       state_id = 'VI' if state_id == "U.S." && city_name == 'Virgin Islands'
-      province = country.states[state_id].name
+      province =
+        if country.states[state_id].nil?
+          state_id
+        else
+          country.states[state_id].name
+        end
     end
     if country.name == 'China'
       state_id = province
@@ -466,6 +472,19 @@ world = {}
 ['confirmed', 'deaths', 'recovered'].each do |status|
   puts status
   name = "time_series_covid19_#{status}_global.csv"
+  data = CSV.read(File.join(path, name), headers: true)
+  total = 0
+  data.each do |row|
+    total += row[data.headers.last].to_i
+    next unless node = add_row(world, row)
+    node[:series] ||= {}
+    process_series(node[:series], status.to_sym, data.headers, row)
+  end
+  puts total
+end
+['confirmed', 'deaths'].each do |status|
+  puts "US #{status}"
+  name = "time_series_covid19_#{status}_US.csv"
   data = CSV.read(File.join(path, name), headers: true)
   total = 0
   data.each do |row|
