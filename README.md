@@ -9,6 +9,8 @@ Corona
 
 Charts, SVG badges, CSV export and JSON API for the Johns Hopkins CSSE Coronavirus / COVID-19 dataset.
 
+![Home Page](https://www.kranzky.com/img/portfolio/corona.png)
+
 Available at: https://corona.kranzky.com
 
 Data source: https://github.com/CSSEGISandData/COVID-19
