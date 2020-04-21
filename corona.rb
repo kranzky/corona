@@ -289,11 +289,38 @@ def write_file(path, data)
   File.write(path, JSON.pretty_generate(data))
 end
 
+def write_city(city, root, prefix)
+  index = {
+    id: city[:id],
+    name: city[:name],
+    badge: File.join(prefix, 'badge.svg'),
+    series: city[:series]
+  }
+  write_file("#{root}.json", index)
+  write_file(File.join(root, 'index.json'), index)
+end
+
 def write_state(state, root, prefix)
+  cities = {}
+  state[:cities].each do |key, value|
+    next if key == :series
+    id = key.downcase
+    uri = File.join(prefix, id)
+    write_city(value, File.join(root, id), uri)
+    cities[id] = {
+      id: key,
+      name: value[:name],
+      uri: "#{uri}.json"
+    }
+    value[:series].values.last.each do |key, value|
+      cities[id][key] = value[:total]
+    end
+  end
   index = {
     id: state[:id],
     name: state[:name],
     badge: File.join(prefix, 'badge.svg'),
+    cities: Hash[cities.sort_by { |key, value| value[:name] }],
     series: state[:series]
   }
   write_file("#{root}.json", index)
