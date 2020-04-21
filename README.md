@@ -3,6 +3,7 @@
 [![Italy](https://corona.kranzky.com/eu/seu/it/badge.svg?update)](https://corona.kranzky.com/eu/seu/it.json)
 [![Western Australia](https://corona.kranzky.com/oc/anz/au/wa/badge.svg?update)](https://corona.kranzky.com/oc/anz/au/wa.json)
 [![California](https://corona.kranzky.com/am/na/us/ca/badge.svg)](https://corona.kranzky.com/am/na/us/ca.json)
+[![Los Angeles](https://corona.kranzky.com/am/na/us/ca/lan/badge.svg)](https://corona.kranzky.com/am/na/us/ca/lan.json)
 
 Corona
 ======

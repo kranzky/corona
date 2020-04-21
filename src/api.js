@@ -5,6 +5,7 @@ function loadPage() {
   $('#subregion').dropdown({ onChange: selectSubregion });
   $('#country').dropdown({ onChange: selectCountry });
   $('#state').dropdown({ onChange: selectState });
+  $('#city').dropdown({ onChange: selectCity });
   loadRegions("https://corona.kranzky.com/api.json");
 }
 
@@ -88,6 +89,26 @@ function loadStates(uri) {
     });
 }
 
+function loadCities(uri) {
+  $('#city').dropdown('restore defaults');
+  axios.get(uri)
+    .then(function (response) {
+      $('#city .menu').empty();
+      refreshDisplay(uri, response.data, response.request.responseText);
+      if (!_.isEmpty(response.data.cities)) {    
+        _.each(response.data.cities, function(value) {
+          $('#cities .menu').append(`<div class="item" data-value="${value.uri}">${value.name}</div>`);
+        });
+        $('#city').show();
+      }
+      dimmer.removeClass('active');
+    })
+    .catch(function (error) {
+      console.log(error);
+      dimmer.removeClass('active');
+    });
+}
+
 function loadResults(uri) {
   axios.get(uri)
     .then(function (response) {
@@ -108,6 +129,7 @@ function selectRegion(uri) {
   $('#subregion').hide();
   $('#country').hide();
   $('#state').hide();
+  $('#city').hide();
   loadSubregions(uri);
 }
 
@@ -118,6 +140,7 @@ function selectSubregion(uri) {
   dimmer.addClass('active');
   $('#country').hide();
   $('#state').hide();
+  $('#city').hide();
   loadCountries(uri);
 }
 
@@ -127,10 +150,20 @@ function selectCountry(uri) {
   }
   dimmer.addClass('active');
   $('#state').hide();
+  $('#city').hide();
   loadStates(uri);
 }
 
 function selectState(uri) {
+  if (_.isEmpty(uri)) {
+    return;
+  }
+  dimmer.addClass('active');
+  $('#city').hide();
+  loadCities(uri);
+}
+
+function selectCity(uri) {
   if (_.isEmpty(uri)) {
     return;
   }
