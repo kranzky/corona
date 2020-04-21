@@ -1,11 +1,31 @@
 dimmer = $('.ui.dimmer');
 
+// if page has just loaded and we have URL params, then reset local storage
+// set dropdowns based on values in localStorage
+// when dropdown changes, reset URL and reset localstorage
+
+/*
+corona = {
+  region: null,
+  subregion: null,
+  country: null,
+  state: null,
+  city: null
+};
+
+window.history.pushState(null, '', '/page2.php');
+
+window.localstorage.corona = {};
+*/
+
 function loadPage() {
   $('#region').dropdown({ onChange: selectRegion });
   $('#subregion').dropdown({ onChange: selectSubregion });
   $('#country').dropdown({ onChange: selectCountry });
   $('#state').dropdown({ onChange: selectState });
   $('#city').dropdown({ onChange: selectCity });
+  // get params from URL
+  // if any exist, then reset local storage
   loadRegions("https://corona.kranzky.com/api.json");
 }
 
@@ -14,13 +34,14 @@ function loadRegions(uri) {
   axios.get(uri)
     .then(function (response) {
       $('#region .menu').empty();
-      refreshDisplay(uri, response.data, response.request.responseText);
       if (!_.isEmpty(response.data.regions)) {    
         _.each(response.data.regions, function(value) {
           $('#region .menu').append(`<div class="item" data-value="${value.uri}">${value.name}</div>`);
         });
         $('#region').show();
       }
+      // load subregion if region selected in local storage
+      refreshDisplay(uri, response.data, response.request.responseText);
       dimmer.removeClass('active');
     })
     .catch(function (error) {
@@ -34,13 +55,14 @@ function loadSubregions(uri) {
   axios.get(uri)
     .then(function (response) {
       $('#subregion .menu').empty();
-      refreshDisplay(uri, response.data, response.request.responseText);
       if (!_.isEmpty(response.data.subregions)) {    
         _.each(response.data.subregions, function(value) {
           $('#subregion .menu').append(`<div class="item" data-value="${value.uri}">${value.name}</div>`);
         });
         $('#subregion').show();
       }
+      // load country if subregion selected in local storage
+      refreshDisplay(uri, response.data, response.request.responseText);
       dimmer.removeClass('active');
     })
     .catch(function (error) {
@@ -54,13 +76,14 @@ function loadCountries(uri) {
   axios.get(uri)
     .then(function (response) {
       $('#country .menu').empty();
-      refreshDisplay(uri, response.data, response.request.responseText);
       if (!_.isEmpty(response.data.countries)) {    
         _.each(response.data.countries, function(value) {
           $('#country .menu').append(`<div class="item" data-value="${value.uri}"><i class="${value.id.toLowerCase()} flag"></i>${value.name}</div>`);
         });
         $('#country').show();
       }
+      // load country if subregion selected in local storage
+      refreshDisplay(uri, response.data, response.request.responseText);
       dimmer.removeClass('active');
     })
     .catch(function (error) {
@@ -74,13 +97,14 @@ function loadStates(uri) {
   axios.get(uri)
     .then(function (response) {
       $('#state .menu').empty();
-      refreshDisplay(uri, response.data, response.request.responseText);
       if (!_.isEmpty(response.data.states)) {    
         _.each(response.data.states, function(value) {
           $('#state .menu').append(`<div class="item" data-value="${value.uri}">${value.name}</div>`);
         });
         $('#state').show();
       }
+      // load state if country selected in local storage
+      refreshDisplay(uri, response.data, response.request.responseText);
       dimmer.removeClass('active');
     })
     .catch(function (error) {
@@ -94,13 +118,14 @@ function loadCities(uri) {
   axios.get(uri)
     .then(function (response) {
       $('#city .menu').empty();
-      refreshDisplay(uri, response.data, response.request.responseText);
       if (!_.isEmpty(response.data.cities)) {    
         _.each(response.data.cities, function(value) {
-          $('#cities .menu').append(`<div class="item" data-value="${value.uri}">${value.name}</div>`);
+          $('#city .menu').append(`<div class="item" data-value="${value.uri}">${value.name}</div>`);
         });
         $('#city').show();
       }
+      // load city if country selected in local storage
+      refreshDisplay(uri, response.data, response.request.responseText);
       dimmer.removeClass('active');
     })
     .catch(function (error) {
@@ -130,6 +155,7 @@ function selectRegion(uri) {
   $('#country').hide();
   $('#state').hide();
   $('#city').hide();
+  // set url and local storage if this has been selected manually
   loadSubregions(uri);
 }
 
@@ -141,6 +167,7 @@ function selectSubregion(uri) {
   $('#country').hide();
   $('#state').hide();
   $('#city').hide();
+  // set url and local storage if this has been selected manually
   loadCountries(uri);
 }
 
@@ -151,6 +178,7 @@ function selectCountry(uri) {
   dimmer.addClass('active');
   $('#state').hide();
   $('#city').hide();
+  // set url and local storage if this has been selected manually
   loadStates(uri);
 }
 
@@ -160,6 +188,7 @@ function selectState(uri) {
   }
   dimmer.addClass('active');
   $('#city').hide();
+  // set url and local storage if this has been selected manually
   loadCities(uri);
 }
 
@@ -168,5 +197,6 @@ function selectCity(uri) {
     return;
   }
   dimmer.addClass('active');
+  // set url and local storage if this has been selected manually
   loadResults(uri);
 }
