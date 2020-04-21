@@ -439,7 +439,6 @@ def generate_badges(data, root)
     next unless value.is_a?(Hash)
     next if value.length.zero?
     next if key == :series
-    next if key == :cities
     if key.is_a?(Symbol)
       value.each do |key, value|
         next if key.is_a?(Symbol)
