@@ -1,22 +1,22 @@
 dimmer = $('.ui.dimmer');
 
-// if page has just loaded and we have URL params, then reset local storage
-// set dropdowns based on values in localStorage
-// when dropdown changes, reset URL and reset localstorage
+function getArgs() {
+  arguments = _.compact(_.split(window.location.href.replace(/^[^?]*[?]*/, ''), '&'))
+  arguments = _.fromPairs(_.map(arguments, function(v) { return _.split(v, '=') }))
+  return _.pick(arguments, ['region', 'subregion', 'country', 'state', 'city'])
+}
 
-/*
-corona = {
-  region: null,
-  subregion: null,
-  country: null,
-  state: null,
-  city: null
-};
-
-window.history.pushState(null, '', '/page2.php');
-
-window.localstorage.corona = {};
-*/
+function setArgs() {
+  window.corona = JSON.parse(sessionStorage.getItem('corona'));
+  url = window.location.href.replace(/[?].*/, '');
+  arguments = _.map(_.toPairs(window.corona), function(pair) { return pair.join('=') }).join("&");
+  if (!_.isEmpty(arguments)) {
+    url += `?${arguments}`;
+  }
+  if (url != window.location.href) {
+    history.replaceState(null, null, url);
+  }
+}
 
 function loadPage() {
   $('#region').dropdown({ onChange: selectRegion });
@@ -24,8 +24,10 @@ function loadPage() {
   $('#country').dropdown({ onChange: selectCountry });
   $('#state').dropdown({ onChange: selectState });
   $('#city').dropdown({ onChange: selectCity });
-  // get params from URL
-  // if any exist, then reset local storage
+  if (_.isUndefined(sessionStorage.corona)) {
+    sessionStorage.setItem('corona', JSON.stringify(getArgs()));
+  }
+  setArgs();
   loadRegions("https://corona.kranzky.com/api.json");
 }
 
