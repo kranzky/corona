@@ -31,38 +31,46 @@ function loadPage() {
   $('#city').dropdown({ onChange: selectCity, clearable: true });
   loadState();
   saveState();
+  window.corona.startup = true;
   loadRegions("https://corona.kranzky.com/api.json");
 }
 
-// TODO: dry this up
-function loadRegions(uri) {
+function getPlural(target) {
+  return { region: 'regions', subregion: 'subregions', country: 'countries', state: 'states', city: 'cities' }[target]
+}
+
+function load(target, uri) {
   loading.addClass('active');
-  console.log('load');
-  $('#region').dropdown('restore defaults');
+  $(`#${target}`).dropdown('restore defaults');
   selected_uri = null;
+  index = getPlural(target);
   axios.get(uri)
     .then(function (response) {
-      $('#region .menu').empty();
-      if (!_.isEmpty(response.data.regions)) {    
-        _.forIn(response.data.regions, function(value, key) {
-          if (window.corona.region == key) {
+      $(`#${target} .menu`).empty();
+      if (!_.isEmpty(response.data[index])) {    
+        _.forIn(response.data[index], function(value, key) {
+          if (window.corona[target] == key) {
             selected_uri = value.uri;
           }
-          $('#region .menu').append(`<div class="item" data-id="${key}" data-value="${value.uri}">${value.name}</div>`);
+          $(`#${target} .menu`).append(`<div class="item" data-id="${key}" data-value="${value.uri}">${value.name}</div>`);
         });
-        $('#region').show();
+        $(`#${target}`).show();
       }
       if (_.isNull(selected_uri)) {
-        console.log('clear state');
-        delete window.corona.region;
-        delete window.corona.subregion;
-        delete window.corona.country;
-        delete window.corona.state;
-        delete window.corona.city;
+        delete window.corona['startup']
+        hide = false;
+        _.each(['region', 'subregion', 'country', 'state', 'city'], function(item) {
+          if (item == target) {
+            hide = true;
+          }
+          if (hide) {
+            delete window.corona[item];
+          }
+        });
         saveState();
         refreshDisplay(uri, response.data, response.request.responseText);
       } else {
-        setTimeout(function() { $('#region').dropdown('set selected', selected_uri) });
+        setTimeout(function() { $(`#${target}`).dropdown('set selected', selected_uri) });
       }
       loading.removeClass('active');
     })
@@ -71,117 +79,24 @@ function loadRegions(uri) {
       loading.removeClass('active');
     });
 }
-
+function loadRegions(uri) {
+  load('region', uri);
+}
 function loadSubregions(uri) {
-  $('#subregion').dropdown('restore defaults');
-  selected_uri = null;
-  axios.get(uri)
-    .then(function (response) {
-      $('#subregion .menu').empty();
-      if (!_.isEmpty(response.data.subregions)) {    
-        _.forIn(response.data.subregions, function(value, key) {
-          if (window.corona.subregion == key) {
-            // make region selected
-            selected_uri = value.uri;
-          }
-          $('#subregion .menu').append(`<div class="item" data-id="${key}" data-value="${value.uri}">${value.name}</div>`);
-        });
-        $('#subregion').show();
-      }
-      if (_.isNull(selected_uri)) {
-        delete window.corona.subregion;
-        delete window.corona.country;
-        delete window.corona.state;
-        delete window.corona.city;
-        saveState();
-        refreshDisplay(uri, response.data, response.request.responseText);
-      } else {
-        loadCountries(selected_uri);
-      }
-      loading.removeClass('active');
-    })
-    .catch(function (error) {
-      console.log(error);
-      loading.removeClass('active');
-    });
+  load('subregion', uri);
 }
-
 function loadCountries(uri) {
-  $('#country').dropdown('restore defaults');
-  selected_uri = null;
-  axios.get(uri)
-    .then(function (response) {
-      $('#country .menu').empty();
-      if (!_.isEmpty(response.data.countries)) {    
-        _.forIn(response.data.countries, function(value, key) {
-          if (window.corona.country == key) {
-            // make region selected
-            selected_uri = value.uri;
-          }
-          $('#country .menu').append(`<div class="item" data-id="${key}" data-value="${value.uri}"><i class="${value.id.toLowerCase()} flag"></i>${value.name}</div>`);
-        });
-        $('#country').show();
-      }
-      if (_.isNull(selected_uri)) {
-        delete window.corona.country;
-        delete window.corona.state;
-        delete window.corona.city;
-        saveState();
-        refreshDisplay(uri, response.data, response.request.responseText);
-      } else {
-        loadStates(selected_uri);
-      }
-      loading.removeClass('active');
-    })
-    .catch(function (error) {
-      console.log(error);
-      loading.removeClass('active');
-    });
+  load('country', uri);
 }
-
 function loadStates(uri) {
-  $('#state').dropdown('restore defaults');
-  axios.get(uri)
-    .then(function (response) {
-      $('#state .menu').empty();
-      if (!_.isEmpty(response.data.states)) {    
-        _.forIn(response.data.states, function(value, key) {
-          $('#state .menu').append(`<div class="item" data-id="${key}" data-value="${value.uri}">${value.name}</div>`);
-        });
-        $('#state').show();
-      }
-      // load state if country selected in local storage
-      refreshDisplay(uri, response.data, response.request.responseText);
-      loading.removeClass('active');
-    })
-    .catch(function (error) {
-      console.log(error);
-      loading.removeClass('active');
-    });
+  load('state', uri);
 }
-
 function loadCities(uri) {
-  $('#city').dropdown('restore defaults');
-  axios.get(uri)
-    .then(function (response) {
-      $('#city .menu').empty();
-      if (!_.isEmpty(response.data.cities)) {    
-        _.forIn(response.data.cities, function(value, key) {
-          $('#city .menu').append(`<div class="item" data-id="${key}" data-value="${value.uri}">${value.name}</div>`);
-        });
-        $('#city').show();
-      }
-      // load city if country selected in local storage
-      refreshDisplay(uri, response.data, response.request.responseText);
-      loading.removeClass('active');
-    })
-    .catch(function (error) {
-      console.log(error);
-      loading.removeClass('active');
-    });
+  load('city', uri);
 }
 
 function loadResults(uri) {
+  loading.addClass('active');
   axios.get(uri)
     .then(function (response) {
       refreshDisplay(uri, response.data, response.request.responseText);
@@ -193,79 +108,49 @@ function loadResults(uri) {
     });
 }
 
-// TODO: dry this up
-function selectRegion(uri, name, item) {
-  console.log('select');
+function select(target, child, uri, item, child_uri) {
   if (loading.hasClass('active')) {
     return;
   }
-  $('#subregion').hide();
-  $('#country').hide();
-  $('#state').hide();
-  $('#city').hide();
-  delete window.corona['region'];
-  delete window.corona['subregion'];
-  delete window.corona['country'];
-  delete window.corona['state'];
-  delete window.corona['city'];
+  if (window.corona.startup !== true) {
+    hide = false;
+    _.each(['region', 'subregion', 'country', 'state', 'city'], function(item) {
+      if (item == child) {
+        hide = true;
+      }
+      if (hide) {
+        $(`#${item}`).hide();
+        delete window.corona[item];
+      }
+    });
+  }
   if (!_.isEmpty(uri)) {
-    window.corona['region'] = item[0].dataset.id;
+    window.corona[target] = item[0].dataset.id;
     saveState();
-    loadSubregions(uri);
+    if (_.isNull(child)) {
+      loadResults(uri);
+    } else {
+      load(child, uri);
+    }
   } else {
+    delete window.corona[target];
     saveState();
-    loadRegions("https://corona.kranzky.com/api.json");
+    load(target, child_uri);
   }
 }
 
+function selectRegion(uri, name, item) {
+  select('region', 'subregion', uri, item, "https://corona.kranzky.com/api.json");
+}
 function selectSubregion(uri, name, item) {
-  if (_.isEmpty(uri)) {
-    return;
-  }
-  loading.addClass('active');
-  $('#country').hide();
-  $('#state').hide();
-  $('#city').hide();
-  window.corona.subregion = item[0].dataset.id;
-  delete window.corona.country;
-  delete window.corona.state;
-  delete window.corona.city;
-  saveState();
-  loadCountries(uri);
+  select('subregion', 'country', uri, item, $("#region").dropdown('get value'));
 }
-
 function selectCountry(uri, name, item) {
-  if (_.isEmpty(uri)) {
-    return;
-  }
-  loading.addClass('active');
-  $('#state').hide();
-  $('#city').hide();
-  window.corona.country = item[0].dataset.id;
-  delete window.corona.state;
-  delete window.corona.city;
-  saveState();
-  loadStates(uri);
+  select('country', 'state', uri, item, $("#subregion").dropdown('get value'));
 }
-
 function selectState(uri, name, item) {
-  if (_.isEmpty(uri)) {
-    return;
-  }
-  loading.addClass('active');
-  $('#city').hide();
-  window.corona.state = item[0].dataset.id;
-  delete window.corona.city;
-  saveState();
-  loadCities(uri);
+  select('state', 'city', uri, item, $("#country").dropdown('get value'));
 }
-
 function selectCity(uri, name, item) {
-  if (_.isEmpty(uri)) {
-    return;
-  }
-  loading.addClass('active');
-  window.corona.city = item[0].dataset.id;
-  saveState();
-  loadResults(uri);
+  select('city', null, uri, item, $("#state").dropdown('get value'));
 }

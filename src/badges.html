@@ -111,7 +111,7 @@
 
   function refreshDisplay(uri, data, raw) {
     $('#badge').attr('src', data.badge);
-    markdown = `[![${data.name}](${data.badge})](https://corona.kranzky.com/)`;
+    markdown = `[![${data.name}](${data.badge})](https://corona.kranzky.com?${window.location.href.replace(/^[^?]*[?]*/, '')})`;
     $('pre').text(markdown);
   }
 </script>
