@@ -59,12 +59,12 @@ function load(target, uri) {
       if (_.isNull(selected_uri)) {
         delete window.corona['startup']
         hide = false;
-        _.each(['region', 'subregion', 'country', 'state', 'city'], function(item) {
-          if (item == target) {
+        _.each(['region', 'subregion', 'country', 'state', 'city'], function(name) {
+          if (name == target) {
             hide = true;
           }
           if (hide) {
-            delete window.corona[item];
+            delete window.corona[name];
           }
         });
         saveState();
@@ -114,13 +114,13 @@ function select(target, child, uri, item, child_uri) {
   }
   if (window.corona.startup !== true) {
     hide = false;
-    _.each(['region', 'subregion', 'country', 'state', 'city'], function(item) {
-      if (item == child) {
+    _.each(['region', 'subregion', 'country', 'state', 'city'], function(name) {
+      if (name == child) {
         hide = true;
       }
       if (hide) {
-        $(`#${item}`).hide();
-        delete window.corona[item];
+        $(`#${name}`).hide();
+        delete window.corona[name];
       }
     });
   }
