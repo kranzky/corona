@@ -1,4 +1,4 @@
-dimmer = $('.ui.dimmer');
+loading = $('.ui.dimmer');
 
 function loadState() {
   blob = sessionStorage.getItem('corona');
@@ -24,76 +24,118 @@ function saveState() {
 }
 
 function loadPage() {
-  $('#region').dropdown({ onChange: selectRegion });
-  $('#subregion').dropdown({ onChange: selectSubregion });
-  $('#country').dropdown({ onChange: selectCountry });
-  $('#state').dropdown({ onChange: selectState });
-  $('#city').dropdown({ onChange: selectCity });
+  $('#region').dropdown({ onChange: selectRegion, clearable: true });
+  $('#subregion').dropdown({ onChange: selectSubregion, clearable: true });
+  $('#country').dropdown({ onChange: selectCountry, clearable: true });
+  $('#state').dropdown({ onChange: selectState, clearable: true });
+  $('#city').dropdown({ onChange: selectCity, clearable: true });
   loadState();
   saveState();
   loadRegions("https://corona.kranzky.com/api.json");
 }
 
+// TODO: dry this up
 function loadRegions(uri) {
+  loading.addClass('active');
+  console.log('load');
   $('#region').dropdown('restore defaults');
+  selected_uri = null;
   axios.get(uri)
     .then(function (response) {
       $('#region .menu').empty();
       if (!_.isEmpty(response.data.regions)) {    
         _.forIn(response.data.regions, function(value, key) {
+          if (window.corona.region == key) {
+            selected_uri = value.uri;
+          }
           $('#region .menu').append(`<div class="item" data-id="${key}" data-value="${value.uri}">${value.name}</div>`);
         });
         $('#region').show();
       }
-      // load subregion if region selected in local storage
-      refreshDisplay(uri, response.data, response.request.responseText);
-      dimmer.removeClass('active');
+      if (_.isNull(selected_uri)) {
+        console.log('clear state');
+        delete window.corona.region;
+        delete window.corona.subregion;
+        delete window.corona.country;
+        delete window.corona.state;
+        delete window.corona.city;
+        saveState();
+        refreshDisplay(uri, response.data, response.request.responseText);
+      } else {
+        setTimeout(function() { $('#region').dropdown('set selected', selected_uri) });
+      }
+      loading.removeClass('active');
     })
     .catch(function (error) {
       console.log(error);
-      dimmer.removeClass('active');
+      loading.removeClass('active');
     });
 }
 
 function loadSubregions(uri) {
   $('#subregion').dropdown('restore defaults');
+  selected_uri = null;
   axios.get(uri)
     .then(function (response) {
       $('#subregion .menu').empty();
       if (!_.isEmpty(response.data.subregions)) {    
         _.forIn(response.data.subregions, function(value, key) {
+          if (window.corona.subregion == key) {
+            // make region selected
+            selected_uri = value.uri;
+          }
           $('#subregion .menu').append(`<div class="item" data-id="${key}" data-value="${value.uri}">${value.name}</div>`);
         });
         $('#subregion').show();
       }
-      // load country if subregion selected in local storage
-      refreshDisplay(uri, response.data, response.request.responseText);
-      dimmer.removeClass('active');
+      if (_.isNull(selected_uri)) {
+        delete window.corona.subregion;
+        delete window.corona.country;
+        delete window.corona.state;
+        delete window.corona.city;
+        saveState();
+        refreshDisplay(uri, response.data, response.request.responseText);
+      } else {
+        loadCountries(selected_uri);
+      }
+      loading.removeClass('active');
     })
     .catch(function (error) {
       console.log(error);
-      dimmer.removeClass('active');
+      loading.removeClass('active');
     });
 }
 
 function loadCountries(uri) {
   $('#country').dropdown('restore defaults');
+  selected_uri = null;
   axios.get(uri)
     .then(function (response) {
       $('#country .menu').empty();
       if (!_.isEmpty(response.data.countries)) {    
         _.forIn(response.data.countries, function(value, key) {
+          if (window.corona.country == key) {
+            // make region selected
+            selected_uri = value.uri;
+          }
           $('#country .menu').append(`<div class="item" data-id="${key}" data-value="${value.uri}"><i class="${value.id.toLowerCase()} flag"></i>${value.name}</div>`);
         });
         $('#country').show();
       }
-      // load country if subregion selected in local storage
-      refreshDisplay(uri, response.data, response.request.responseText);
-      dimmer.removeClass('active');
+      if (_.isNull(selected_uri)) {
+        delete window.corona.country;
+        delete window.corona.state;
+        delete window.corona.city;
+        saveState();
+        refreshDisplay(uri, response.data, response.request.responseText);
+      } else {
+        loadStates(selected_uri);
+      }
+      loading.removeClass('active');
     })
     .catch(function (error) {
       console.log(error);
-      dimmer.removeClass('active');
+      loading.removeClass('active');
     });
 }
 
@@ -110,11 +152,11 @@ function loadStates(uri) {
       }
       // load state if country selected in local storage
       refreshDisplay(uri, response.data, response.request.responseText);
-      dimmer.removeClass('active');
+      loading.removeClass('active');
     })
     .catch(function (error) {
       console.log(error);
-      dimmer.removeClass('active');
+      loading.removeClass('active');
     });
 }
 
@@ -131,11 +173,11 @@ function loadCities(uri) {
       }
       // load city if country selected in local storage
       refreshDisplay(uri, response.data, response.request.responseText);
-      dimmer.removeClass('active');
+      loading.removeClass('active');
     })
     .catch(function (error) {
       console.log(error);
-      dimmer.removeClass('active');
+      loading.removeClass('active');
     });
 }
 
@@ -143,37 +185,51 @@ function loadResults(uri) {
   axios.get(uri)
     .then(function (response) {
       refreshDisplay(uri, response.data, response.request.responseText);
-      dimmer.removeClass('active');
+      loading.removeClass('active');
     })
     .catch(function (error) {
       console.log(error);
-      dimmer.removeClass('active');
+      loading.removeClass('active');
     });
 }
 
+// TODO: dry this up
 function selectRegion(uri, name, item) {
-  if (_.isEmpty(uri)) {
+  console.log('select');
+  if (loading.hasClass('active')) {
     return;
   }
-  dimmer.addClass('active');
   $('#subregion').hide();
   $('#country').hide();
   $('#state').hide();
   $('#city').hide();
-  window.corona.region = item[0].dataset.id;
-  saveState();
-  loadSubregions(uri);
+  delete window.corona['region'];
+  delete window.corona['subregion'];
+  delete window.corona['country'];
+  delete window.corona['state'];
+  delete window.corona['city'];
+  if (!_.isEmpty(uri)) {
+    window.corona['region'] = item[0].dataset.id;
+    saveState();
+    loadSubregions(uri);
+  } else {
+    saveState();
+    loadRegions("https://corona.kranzky.com/api.json");
+  }
 }
 
 function selectSubregion(uri, name, item) {
   if (_.isEmpty(uri)) {
     return;
   }
-  dimmer.addClass('active');
+  loading.addClass('active');
   $('#country').hide();
   $('#state').hide();
   $('#city').hide();
   window.corona.subregion = item[0].dataset.id;
+  delete window.corona.country;
+  delete window.corona.state;
+  delete window.corona.city;
   saveState();
   loadCountries(uri);
 }
@@ -182,10 +238,12 @@ function selectCountry(uri, name, item) {
   if (_.isEmpty(uri)) {
     return;
   }
-  dimmer.addClass('active');
+  loading.addClass('active');
   $('#state').hide();
   $('#city').hide();
   window.corona.country = item[0].dataset.id;
+  delete window.corona.state;
+  delete window.corona.city;
   saveState();
   loadStates(uri);
 }
@@ -194,9 +252,10 @@ function selectState(uri, name, item) {
   if (_.isEmpty(uri)) {
     return;
   }
-  dimmer.addClass('active');
+  loading.addClass('active');
   $('#city').hide();
   window.corona.state = item[0].dataset.id;
+  delete window.corona.city;
   saveState();
   loadCities(uri);
 }
@@ -205,7 +264,7 @@ function selectCity(uri, name, item) {
   if (_.isEmpty(uri)) {
     return;
   }
-  dimmer.addClass('active');
+  loading.addClass('active');
   window.corona.city = item[0].dataset.id;
   saveState();
   loadResults(uri);
