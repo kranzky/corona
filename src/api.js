@@ -1,13 +1,19 @@
 dimmer = $('.ui.dimmer');
 
 function getArgs() {
-  arguments = _.compact(_.split(window.location.href.replace(/^[^?]*[?]*/, ''), '&'))
-  arguments = _.fromPairs(_.map(arguments, function(v) { return _.split(v, '=') }))
-  return _.pick(arguments, ['region', 'subregion', 'country', 'state', 'city'])
+  blob = sessionStorage.getItem('corona');
+  if (_.isNull(blob)) {
+    arguments = _.compact(_.split(window.location.href.replace(/^[^?]*[?]*/, ''), '&'))
+    arguments = _.fromPairs(_.map(arguments, function(v) { return _.split(v, '=') }))
+    window.corona = _.pick(arguments, ['region', 'subregion', 'country', 'state', 'city'])
+  } else {
+    window.corona = JSON.parse(blob);
+  }
+  setArgs();
 }
 
 function setArgs() {
-  window.corona = JSON.parse(sessionStorage.getItem('corona'));
+  sessionStorage.setItem('corona', JSON.stringify(window.corona));
   url = window.location.href.replace(/[?].*/, '');
   arguments = _.map(_.toPairs(window.corona), function(pair) { return pair.join('=') }).join("&");
   if (!_.isEmpty(arguments)) {
@@ -24,10 +30,7 @@ function loadPage() {
   $('#country').dropdown({ onChange: selectCountry });
   $('#state').dropdown({ onChange: selectState });
   $('#city').dropdown({ onChange: selectCity });
-  if (_.isUndefined(sessionStorage.corona)) {
-    sessionStorage.setItem('corona', JSON.stringify(getArgs()));
-  }
-  setArgs();
+  getArgs()
   loadRegions("https://corona.kranzky.com/api.json");
 }
 
@@ -37,8 +40,8 @@ function loadRegions(uri) {
     .then(function (response) {
       $('#region .menu').empty();
       if (!_.isEmpty(response.data.regions)) {    
-        _.each(response.data.regions, function(value) {
-          $('#region .menu').append(`<div class="item" data-value="${value.uri}">${value.name}</div>`);
+        _.forIn(response.data.regions, function(value, key) {
+          $('#region .menu').append(`<div class="item" data-id="${key}" data-value="${value.uri}">${value.name}</div>`);
         });
         $('#region').show();
       }
@@ -58,8 +61,8 @@ function loadSubregions(uri) {
     .then(function (response) {
       $('#subregion .menu').empty();
       if (!_.isEmpty(response.data.subregions)) {    
-        _.each(response.data.subregions, function(value) {
-          $('#subregion .menu').append(`<div class="item" data-value="${value.uri}">${value.name}</div>`);
+        _.forIn(response.data.subregions, function(value, key) {
+          $('#subregion .menu').append(`<div class="item" data-id="${key}" data-value="${value.uri}">${value.name}</div>`);
         });
         $('#subregion').show();
       }
@@ -79,8 +82,8 @@ function loadCountries(uri) {
     .then(function (response) {
       $('#country .menu').empty();
       if (!_.isEmpty(response.data.countries)) {    
-        _.each(response.data.countries, function(value) {
-          $('#country .menu').append(`<div class="item" data-value="${value.uri}"><i class="${value.id.toLowerCase()} flag"></i>${value.name}</div>`);
+        _.forIn(response.data.countries, function(value, key) {
+          $('#country .menu').append(`<div class="item" data-id="${key}" data-value="${value.uri}"><i class="${value.id.toLowerCase()} flag"></i>${value.name}</div>`);
         });
         $('#country').show();
       }
@@ -100,8 +103,8 @@ function loadStates(uri) {
     .then(function (response) {
       $('#state .menu').empty();
       if (!_.isEmpty(response.data.states)) {    
-        _.each(response.data.states, function(value) {
-          $('#state .menu').append(`<div class="item" data-value="${value.uri}">${value.name}</div>`);
+        _.forIn(response.data.states, function(value, key) {
+          $('#state .menu').append(`<div class="item" data-id="${key}" data-value="${value.uri}">${value.name}</div>`);
         });
         $('#state').show();
       }
@@ -121,8 +124,8 @@ function loadCities(uri) {
     .then(function (response) {
       $('#city .menu').empty();
       if (!_.isEmpty(response.data.cities)) {    
-        _.each(response.data.cities, function(value) {
-          $('#city .menu').append(`<div class="item" data-value="${value.uri}">${value.name}</div>`);
+        _.forIn(response.data.cities, function(value, key) {
+          $('#city .menu').append(`<div class="item" data-id="${key}" data-value="${value.uri}">${value.name}</div>`);
         });
         $('#city').show();
       }
@@ -148,7 +151,7 @@ function loadResults(uri) {
     });
 }
 
-function selectRegion(uri) {
+function selectRegion(uri, name, item) {
   if (_.isEmpty(uri)) {
     return;
   }
@@ -157,11 +160,12 @@ function selectRegion(uri) {
   $('#country').hide();
   $('#state').hide();
   $('#city').hide();
-  // set url and local storage if this has been selected manually
+  window.corona.region = item[0].dataset.id;
+  setArgs();
   loadSubregions(uri);
 }
 
-function selectSubregion(uri) {
+function selectSubregion(uri, name, item) {
   if (_.isEmpty(uri)) {
     return;
   }
@@ -169,36 +173,40 @@ function selectSubregion(uri) {
   $('#country').hide();
   $('#state').hide();
   $('#city').hide();
-  // set url and local storage if this has been selected manually
+  window.corona.subregion = item[0].dataset.id;
+  setArgs();
   loadCountries(uri);
 }
 
-function selectCountry(uri) {
+function selectCountry(uri, name, item) {
   if (_.isEmpty(uri)) {
     return;
   }
   dimmer.addClass('active');
   $('#state').hide();
   $('#city').hide();
-  // set url and local storage if this has been selected manually
+  window.corona.country = item[0].dataset.id;
+  setArgs();
   loadStates(uri);
 }
 
-function selectState(uri) {
+function selectState(uri, name, item) {
   if (_.isEmpty(uri)) {
     return;
   }
   dimmer.addClass('active');
   $('#city').hide();
-  // set url and local storage if this has been selected manually
+  window.corona.state = item[0].dataset.id;
+  setArgs();
   loadCities(uri);
 }
 
-function selectCity(uri) {
+function selectCity(uri, name, item) {
   if (_.isEmpty(uri)) {
     return;
   }
   dimmer.addClass('active');
-  // set url and local storage if this has been selected manually
+  window.corona.city = item[0].dataset.id;
+  setArgs();
   loadResults(uri);
 }
