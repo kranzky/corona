@@ -1,8 +1,8 @@
-[![Global](https://corona.kranzky.com/badge.svg?update)](https://corona.kranzky.com/)
-[![Africa](https://corona.kranzky.com/af/badge.svg?update)](https://corona.kranzky.com/af.json)
-[![Italy](https://corona.kranzky.com/eu/seu/it/badge.svg?update)](https://corona.kranzky.com/eu/seu/it.json)
-[![Western Australia](https://corona.kranzky.com/oc/anz/au/wa/badge.svg?update)](https://corona.kranzky.com/oc/anz/au/wa.json)
-[![San Francisco](https://corona.kranzky.com/am/na/us/ca/sfr/badge.svg)](https://corona.kranzky.com/am/na/us/ca/sfr.json)
+[![Global](https://corona.kranzky.com/badge.svg?update)](https://corona.kranzky.com?)
+[![Africa](https://corona.kranzky.com/af/badge.svg?update)](https://corona.kranzky.com?region=af)
+[![Italy](https://corona.kranzky.com/eu/seu/it/badge.svg?update)](https://corona.kranzky.com?region=eu&subregion=seu&country=it)
+[![Western Australia](https://corona.kranzky.com/oc/anz/au/wa/badge.svg?update)](https://corona.kranzky.com?region=oc&subregion=anz&country=au&state=wa)
+[![San Francisco](https://corona.kranzky.com/am/na/us/ca/sfr/badge.svg)](https://corona.kranzky.com?region=am&subregion=na&country=us&state=ca&city=sfr)
 
 Corona
 ======
