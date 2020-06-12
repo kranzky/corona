@@ -1,18 +1,20 @@
 loading = $('.ui.dimmer');
 
 function loadState() {
-  blob = sessionStorage.getItem('corona');
-  if (_.isNull(blob)) {
-    arguments = _.compact(_.split(window.location.href.replace(/^[^?]*[?]*/, ''), '&'))
-    arguments = _.fromPairs(_.map(arguments, function(v) { return _.split(v, '=') }))
-    window.corona = _.pick(arguments, ['region', 'subregion', 'country', 'state', 'city'])
-  } else {
-    window.corona = JSON.parse(blob);
+  arguments = _.compact(_.split(window.location.href.replace(/^[^?]*[?]*/, ''), '&'))
+  arguments = _.fromPairs(_.map(arguments, function(v) { return _.split(v, '=') }))
+  window.corona = _.pick(arguments, ['region', 'subregion', 'country', 'state', 'city'])
+}
+
+function setLinkArguments(link, arguments) {
+  url = link.attr('href').replace(/[?].*/, '');
+  if (!_.isEmpty(arguments)) {
+    url += `?${arguments}`;
   }
+  link.attr('href', url)
 }
 
 function saveState() {
-  sessionStorage.setItem('corona', JSON.stringify(window.corona));
   url = window.location.href.replace(/[?].*/, '');
   arguments = _.map(_.toPairs(window.corona), function(pair) { return pair.join('=') }).join("&");
   if (!_.isEmpty(arguments)) {
@@ -21,6 +23,11 @@ function saveState() {
   if (url != window.location.href) {
     history.replaceState(null, null, url);
   }
+  setLinkArguments($('#home_link'), arguments);
+  setLinkArguments($('#compare_link'), arguments);
+  setLinkArguments($('#badge_link'), arguments);
+  setLinkArguments($('#export_link'), arguments);
+  setLinkArguments($('#api_link'), arguments);
 }
 
 function loadPage() {
@@ -31,7 +38,6 @@ function loadPage() {
   $('#city').dropdown({ onChange: selectCity, clearable: true });
   loadState();
   saveState();
-  window.corona.startup = true;
   loadRegions("https://corona.kranzky.com/api.json");
 }
 
@@ -57,7 +63,6 @@ function load(target, uri) {
         $(`#${target}`).show();
       }
       if (_.isNull(selected_uri)) {
-        delete window.corona['startup']
         hide = false;
         _.each(['region', 'subregion', 'country', 'state', 'city'], function(name) {
           if (name == target) {
@@ -111,18 +116,6 @@ function loadResults(uri) {
 function select(target, child, uri, item, child_uri) {
   if (loading.hasClass('active')) {
     return;
-  }
-  if (window.corona.startup !== true) {
-    hide = false;
-    _.each(['region', 'subregion', 'country', 'state', 'city'], function(name) {
-      if (name == child) {
-        hide = true;
-      }
-      if (hide) {
-        $(`#${name}`).hide();
-        delete window.corona[name];
-      }
-    });
   }
   if (!_.isEmpty(uri)) {
     window.corona[target] = item[0].dataset.id;
