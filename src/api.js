@@ -37,7 +37,7 @@ function loadPage() {
   $('#state').dropdown({ onChange: selectState, clearable: true });
   $('#city').dropdown({ onChange: selectCity, clearable: true });
   loadState();
-  saveState();
+  window.coronastartup = true;
   loadRegions("https://corona.kranzky.com/api.json");
 }
 
@@ -63,6 +63,7 @@ function load(target, uri) {
         $(`#${target}`).show();
       }
       if (_.isNull(selected_uri)) {
+        delete window['coronastartup']
         hide = false;
         _.each(['region', 'subregion', 'country', 'state', 'city'], function(name) {
           if (name == target) {
@@ -73,7 +74,9 @@ function load(target, uri) {
           }
         });
         saveState();
-        refreshDisplay(uri, response.data, response.request.responseText);
+        if (window.coronastartup !== true) {
+          refreshDisplay(uri, response.data, response.request.responseText);
+        }
       } else {
         setTimeout(function() { $(`#${target}`).dropdown('set selected', selected_uri) });
       }
@@ -104,7 +107,9 @@ function loadResults(uri) {
   loading.addClass('active');
   axios.get(uri)
     .then(function (response) {
-      refreshDisplay(uri, response.data, response.request.responseText);
+      if (window.coronastartup !== true) {
+        refreshDisplay(uri, response.data, response.request.responseText);
+      }
       loading.removeClass('active');
     })
     .catch(function (error) {
@@ -116,6 +121,18 @@ function loadResults(uri) {
 function select(target, child, uri, item, child_uri) {
   if (loading.hasClass('active')) {
     return;
+  }
+  if (window.coronastartup !== true) {
+    hide = false;
+    _.each(['region', 'subregion', 'country', 'state', 'city'], function(name) {
+      if (name == child) {
+        hide = true;
+      }
+      if (hide) {
+        $(`#${name}`).hide();
+        delete window.corona[name];
+      }
+    });
   }
   if (!_.isEmpty(uri)) {
     window.corona[target] = item[0].dataset.id;
