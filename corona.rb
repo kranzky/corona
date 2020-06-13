@@ -381,15 +381,17 @@ def write_subregion(subregion, root, prefix)
   }
   write_file("#{root}.json", index)
   write_file(File.join(root, 'index.json'), index)
+  countries
 end
 
 def write_region(region, root, prefix)
   subregions = {}
+  countries = {}
   region[:subregions].each do |key, value|
     next if key == :series
     id = key.downcase
     uri = File.join(prefix, id)
-    write_subregion(value, File.join(root, id), uri)
+    countries.merge!(write_subregion(value, File.join(root, id), uri))
     subregions[id] = {
       id: key,
       name: value[:name],
@@ -408,15 +410,17 @@ def write_region(region, root, prefix)
   }
   write_file("#{root}.json", index)
   write_file(File.join(root, 'index.json'), index)
+  countries
 end
 
 def write_world(world, root, prefix)
   regions = {}
+  countries = {}
   world.each do |key, value|
     next if key == :series
     id = key.downcase
     uri = File.join(prefix, id)
-    write_region(value, File.join(root, id), uri)
+    countries.merge!(write_region(value, File.join(root, id), uri))
     regions[id] = {
       name: value[:name],
       uri: "#{uri}.json"
@@ -432,6 +436,8 @@ def write_world(world, root, prefix)
     series: world[:series]
   }
   write_file(File.join(root, 'index.json'), index)
+  countries = Hash[countries.sort_by { |key, value| value[:name] }]
+  write_file(File.join(root, 'countries.json'), { countries: countries })
 end
 
 def generate_badges(data, root)
