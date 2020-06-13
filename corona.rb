@@ -486,7 +486,7 @@ def generate_badges(data, root)
       when 1.5..Float::INFINITY
         'critical'
       end
-    url = URL.gsub('NAME', URI.encode(name).gsub(/[ -]/, '%20')).gsub('TOTAL', total).gsub('DELTA', URI.encode("Δ#{delta} → ")).gsub('COLOUR', colour)
+    url = URL.gsub('NAME', URI.encode_www_form_component(name)).gsub('TOTAL', total).gsub('DELTA', URI.encode_www_form_component("Δ#{delta} → ")).gsub('COLOUR', colour)
     puts "Writing #{path}"
     blob = RestClient.get(url)
     File.open(path, 'wb') { |file| file.write(blob) }

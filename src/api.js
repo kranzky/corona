@@ -30,15 +30,24 @@ function saveState() {
   setLinkArguments($('#api_link'), arguments);
 }
 
-function loadPage() {
-  $('#region').dropdown({ onChange: selectRegion, clearable: true });
-  $('#subregion').dropdown({ onChange: selectSubregion, clearable: true });
-  $('#country').dropdown({ onChange: selectCountry, clearable: true });
-  $('#state').dropdown({ onChange: selectState, clearable: true });
-  $('#city').dropdown({ onChange: selectCity, clearable: true });
+function loadPage(name) {
+  if (name === "countries") {
+    $('#countries').dropdown({ onChange: selectCountries });
+  } else {
+    $('#region').dropdown({ onChange: selectRegion, clearable: true });
+    $('#subregion').dropdown({ onChange: selectSubregion, clearable: true });
+    $('#country').dropdown({ onChange: selectCountry, clearable: true });
+    $('#state').dropdown({ onChange: selectState, clearable: true });
+    $('#city').dropdown({ onChange: selectCity, clearable: true });
+  }
   loadState();
+  saveState();
   window.coronastartup = true;
-  loadRegions("https://corona.kranzky.com/api.json");
+  if (name === "countries") {
+    loadAllCountries("https://corona.kranzky.com/countries.json");
+  } else {
+    loadRegions("https://corona.kranzky.com/api.json");
+  }
 }
 
 function getPlural(target) {
@@ -163,4 +172,36 @@ function selectState(uri, name, item) {
 }
 function selectCity(uri, name, item) {
   select('city', null, uri, item, $("#state").dropdown('get value'));
+}
+
+function loadCountry(uri) {
+}
+
+function loadAllCountries(uri) {
+  loading.addClass('active');
+  $("#countries").dropdown('restore defaults');
+  axios.get(uri)
+    .then(function (response) {
+      $("#countries .menu").empty();
+      if (!_.isEmpty(response.data.countries)) {    
+        _.forIn(response.data.countries, function(value, key) {
+          $("#countries .menu").append(`<div class="item" data-id="${key}" data-value="${value.uri}"><i class="${key} flag"></i>${value.name}</div>`);
+        });
+      }
+      delete window['coronastartup']
+      loading.removeClass('active');
+    })
+    .catch(function (error) {
+      console.log(error);
+      loading.removeClass('active');
+    });
+}
+
+function selectCountries(uri, name, item) {
+  if (loading.hasClass('active')) {
+    return;
+  }
+  console.log(uri);
+  console.log(name);
+  console.log(item);
 }
