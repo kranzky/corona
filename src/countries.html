@@ -23,6 +23,7 @@
 <meta name="msapplication-TileImage" content="/ms-icon-144x144.png">
 <meta name="theme-color" content="#ffffff">
 <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.css">
+<link rel="stylesheet" type="text/css" href="https://code.highcharts.com/css/highcharts.css">
 <style type="text/css">
   .ui.menu .item img.logo {
     margin-right: 0.5em;
@@ -37,6 +38,9 @@
     padding-top: 4.25rem;
     height: 36px;
     padding-left: 400px;
+  }
+  #chart {
+    height: 700px;
   }
 </style>
 </head>
@@ -65,34 +69,13 @@
       <span class="text">Select Multiple Countries</span>
       <i class="search icon"></i>
       <div class="menu">
-        <div class="item" data-value="af"><i class="af flag"></i>Afghanistan</div>
-        <div class="item" data-value="ax"><i class="ax flag"></i>Aland Islands</div>
-        <div class="item" data-value="al"><i class="al flag"></i>Albania</div>
-        <div class="item" data-value="dz"><i class="dz flag"></i>Algeria</div>
-        <div class="item" data-value="as"><i class="as flag"></i>American Samoa</div>
-        <div class="item" data-value="ad"><i class="ad flag"></i>Andorra</div>
-        <div class="item" data-value="ao"><i class="ao flag"></i>Angola</div>
-        <div class="item" data-value="ai"><i class="ai flag"></i>Anguilla</div>
-        <div class="item" data-value="ag"><i class="ag flag"></i>Antigua</div>
-        <div class="item" data-value="ar"><i class="ar flag"></i>Argentina</div>
-        <div class="item" data-value="am"><i class="am flag"></i>Armenia</div>
-        <div class="item" data-value="aw"><i class="aw flag"></i>Aruba</div>
-        <div class="item" data-value="au"><i class="au flag"></i>Australia</div>
-        <div class="item" data-value="uz"><i class="uz flag"></i>Uzbekistan</div>
-        <div class="item" data-value="vu"><i class="vu flag"></i>Vanuatu</div>
-        <div class="item" data-value="va"><i class="va flag"></i>Vatican City</div>
-        <div class="item" data-value="ve"><i class="ve flag"></i>Venezuela</div>
-        <div class="item" data-value="vn"><i class="vn flag"></i>Vietnam</div>
-        <div class="item" data-value="wf"><i class="wf flag"></i>Wallis and Futuna</div>
-        <div class="item" data-value="eh"><i class="eh flag"></i>Western Sahara</div>
-        <div class="item" data-value="ye"><i class="ye flag"></i>Yemen</div>
-        <div class="item" data-value="zm"><i class="zm flag"></i>Zambia</div>
-        <div class="item" data-value="zw"><i class="zw flag"></i>Zimbabwe</div>
       </div>
     </div>
   </div>
   <div class="ui main container">
     <h1>Compare Countries</h1>
+    <div id='chart'>
+    </div>
     <div class="ui inverted dimmer">
       <div class="ui large text loader">Loading...</div>
     </div>
@@ -102,10 +85,60 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.15/lodash.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.2/axios.min.js"></script>
+<script src="https://code.highcharts.com/highcharts.js"></script>
+<script src="https://code.highcharts.com/modules/exporting.js"></script>
+<script src="https://code.highcharts.com/modules/offline-exporting.js"></script>
 <script src="/api.js"></script>
 <script>
   $(document).ready(function() {
     loadPage("countries");
   });
+
+  function refreshDisplay(uri, data, raw) {
+		series = 
+    chart = {
+      chart: {
+        type: 'spline',
+        zoomType: 'x'
+      },
+      legend: {
+        layout: 'horizontal',
+        align: 'center',
+        verticalAlign: 'bottom',
+        floating: false,
+        x: 0
+      },
+      credits: {
+        enabled: false
+      },
+      title: {
+        text: 'Country Comparison'
+      },
+      exporting: {
+        filename: 'chart'
+      },
+      plotOptions: {
+        series: {
+          animation: false,
+          marker: {
+            enabled: false
+          }
+        }
+      },
+      xAxis: {
+        title: {
+          text: 'Days since 100 Cases'
+        }
+      },
+      yAxis: {
+        type: 'logarithmic',
+        title: {
+          text: 'Number of Cases'
+        }
+      },
+      series: _.map(window.corona.compare)
+    };
+    Highcharts.chart('chart', chart);
+  }
 </script>
 </html>

@@ -177,9 +177,6 @@ function selectCity(uri, name, item) {
   select('city', null, uri, item, $("#state").dropdown('get value'));
 }
 
-function loadCountry(uri) {
-}
-
 function loadAllCountries(uri) {
   loading.addClass('active');
   $("#countries").dropdown('restore defaults');
@@ -202,22 +199,31 @@ function loadAllCountries(uri) {
 }
 
 function addCountry(uri, name, item) {
-  if (loading.hasClass('active')) {
-    return;
-  }
-  console.log("ADD");
-  console.log(uri);
-  console.log(name);
-  console.log(item[0].dataset.id);
-  // TODO: load data from uri, extract relevant part, store in corona.compare, call refreshdisplay
+  loading.addClass('active');
+  axios.get(uri)
+    .then(function (response) {
+      series = _.map(response.data.series, function(item) { return item.confirmed.total; });
+      index = _.findIndex(series, function(num) { return num >= 100; });
+      if (index > 0) {
+        index -= 1;
+      }
+      corona.compare[item[0].dataset.id] = {
+        name: response.data.name,
+        data: _.drop(series, index)
+      }
+      refreshDisplay(uri, response.data, response.request.responseText);
+      loading.removeClass('active');
+    })
+    .catch(function (error) {
+      console.log(error);
+      loading.removeClass('active');
+    });
 }
 
 function removeCountry(uri, name, item) {
   if (loading.hasClass('active')) {
     return;
   }
-  console.log("DEL");
-  console.log(uri);
-  console.log(item[0].dataset.id);
-  // TODO: remove id from data and call refreshdisplay
+  delete corona.compare[item[0].dataset.id];
+  refreshDisplay(uri, {}, "");
 }
