@@ -32,7 +32,7 @@ function saveState() {
 
 function loadPage(name) {
   if (name === "countries") {
-    $('#countries').dropdown({ onChange: selectCountries });
+    $('#countries').dropdown({ onAdd: addCountry, onRemove: removeCountry });
   } else {
     $('#region').dropdown({ onChange: selectRegion, clearable: true });
     $('#subregion').dropdown({ onChange: selectSubregion, clearable: true });
@@ -147,6 +147,7 @@ function select(target, child, uri, item, child_uri) {
     window.corona[target] = item[0].dataset.id;
     saveState();
     if (_.isNull(child)) {
+      delete window['coronastartup']
       loadResults(uri);
     } else {
       load(child, uri);
@@ -190,6 +191,7 @@ function loadAllCountries(uri) {
       }
       delete window['coronastartup']
       loading.removeClass('active');
+      // TODO: select country from corona.country if set and load that
     })
     .catch(function (error) {
       console.log(error);
@@ -197,11 +199,23 @@ function loadAllCountries(uri) {
     });
 }
 
-function selectCountries(uri, name, item) {
+function addCountry(uri, name, item) {
   if (loading.hasClass('active')) {
     return;
   }
+  console.log("ADD");
   console.log(uri);
   console.log(name);
-  console.log(item);
+  console.log(item[0].dataset.id);
+  // TODO: load data from uri, extract relevant part, store in corona.compare, call refreshdisplay
+}
+
+function removeCountry(uri, name, item) {
+  if (loading.hasClass('active')) {
+    return;
+  }
+  console.log("DEL");
+  console.log(uri);
+  console.log(item[0].dataset.id);
+  // TODO: remove id from data and call refreshdisplay
 }
