@@ -16,7 +16,8 @@ function setLinkArguments(link, arguments) {
 
 function saveState() {
   url = window.location.href.replace(/[?].*/, '');
-  arguments = _.map(_.toPairs(window.corona), function(pair) { return pair.join('=') }).join("&");
+  arguments = _.pick(window.corona, ['region', 'subregion', 'country', 'state', 'city'])
+  arguments = _.map(_.toPairs(arguments), function(pair) { return pair.join('=') }).join("&");
   if (!_.isEmpty(arguments)) {
     url += `?${arguments}`;
   }
@@ -42,7 +43,8 @@ function loadPage(name) {
   }
   loadState();
   saveState();
-  window.coronastartup = true;
+  window.corona.startup = true;
+  window.corona.compare = {};
   if (name === "countries") {
     loadAllCountries("https://corona.kranzky.com/countries.json");
   } else {
@@ -72,7 +74,7 @@ function load(target, uri) {
         $(`#${target}`).show();
       }
       if (_.isNull(selected_uri)) {
-        delete window['coronastartup']
+        delete window.corona.startup;
         hide = false;
         _.each(['region', 'subregion', 'country', 'state', 'city'], function(name) {
           if (name == target) {
@@ -83,7 +85,7 @@ function load(target, uri) {
           }
         });
         saveState();
-        if (window.coronastartup !== true) {
+        if (window.corona.startup !== true) {
           refreshDisplay(uri, response.data, response.request.responseText);
         }
       } else {
@@ -116,7 +118,7 @@ function loadResults(uri) {
   loading.addClass('active');
   axios.get(uri)
     .then(function (response) {
-      if (window.coronastartup !== true) {
+      if (window.corona.startup !== true) {
         refreshDisplay(uri, response.data, response.request.responseText);
       }
       loading.removeClass('active');
@@ -131,7 +133,7 @@ function select(target, child, uri, item, child_uri) {
   if (loading.hasClass('active')) {
     return;
   }
-  if (window.coronastartup !== true) {
+  if (window.corona.startup !== true) {
     hide = false;
     _.each(['region', 'subregion', 'country', 'state', 'city'], function(name) {
       if (name == child) {
@@ -147,7 +149,7 @@ function select(target, child, uri, item, child_uri) {
     window.corona[target] = item[0].dataset.id;
     saveState();
     if (_.isNull(child)) {
-      delete window['coronastartup']
+      delete window.corona.startup;
       loadResults(uri);
     } else {
       load(child, uri);
@@ -189,7 +191,7 @@ function loadAllCountries(uri) {
           $("#countries .menu").append(`<div class="item" data-id="${key}" data-value="${value.uri}"><i class="${key} flag"></i>${value.name}</div>`);
         });
       }
-      delete window['coronastartup']
+      delete window.corona.startup;
       loading.removeClass('active');
       // TODO: select country from corona.country if set and load that
     })
