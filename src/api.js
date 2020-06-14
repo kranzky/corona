@@ -57,6 +57,7 @@ function getPlural(target) {
 }
 
 function load(target, uri) {
+  window.corona.loading = true;
   loading.addClass('active');
   $(`#${target}`).dropdown('restore defaults');
   selected_uri = null;
@@ -73,6 +74,7 @@ function load(target, uri) {
         });
         $(`#${target}`).show();
       }
+      window.corona.loading = false;
       if (_.isNull(selected_uri)) {
         delete window.corona.startup;
         hide = false;
@@ -86,16 +88,23 @@ function load(target, uri) {
         });
         saveState();
         if (window.corona.startup !== true) {
-          refreshDisplay(uri, response.data, response.request.responseText);
+          setTimeout(function() {
+            refreshDisplay(uri, response.data, response.request.responseText);
+            loading.removeClass('active');
+          });
         }
       } else {
-        setTimeout(function() { $(`#${target}`).dropdown('set selected', selected_uri) });
+        setTimeout(function() {
+          $(`#${target}`).dropdown('set selected', selected_uri);
+        });
       }
-      loading.removeClass('active');
     })
     .catch(function (error) {
       console.log(error);
-      loading.removeClass('active');
+      setTimeout(function() {
+        loading.removeClass('active');
+      });
+      window.corona.loading = false;
     });
 }
 function loadRegions(uri) {
@@ -119,19 +128,23 @@ function loadResults(uri) {
   axios.get(uri)
     .then(function (response) {
       if (window.corona.startup !== true) {
-        refreshDisplay(uri, response.data, response.request.responseText);
+        setTimeout(function() {
+          refreshDisplay(uri, response.data, response.request.responseText);
+          loading.removeClass('active');
+        });
       }
-      loading.removeClass('active');
     })
     .catch(function (error) {
       console.log(error);
-      loading.removeClass('active');
+      setTimeout(function() {
+        loading.removeClass('active');
+      });
     });
 }
 
 function select(target, child, uri, item, child_uri) {
-  if (loading.hasClass('active')) {
-    return;
+  if (window.corona.loading) {
+    return
   }
   if (window.corona.startup !== true) {
     hide = false;
@@ -180,21 +193,34 @@ function selectCity(uri, name, item) {
 function loadAllCountries(uri) {
   loading.addClass('active');
   $("#countries").dropdown('restore defaults');
+  selected_uri = null;
   axios.get(uri)
     .then(function (response) {
       $("#countries .menu").empty();
       if (!_.isEmpty(response.data.countries)) {    
         _.forIn(response.data.countries, function(value, key) {
+          if (window.corona['country'] == key) {
+            selected_uri = value.uri;
+          }
           $("#countries .menu").append(`<div class="item" data-id="${key}" data-value="${value.uri}"><i class="${key} flag"></i>${value.name}</div>`);
         });
       }
-      delete window.corona.startup;
-      loading.removeClass('active');
-      // TODO: select country from corona.country if set and load that
+      if (_.isNull(selected_uri)) {
+        delete window.corona.startup;
+        setTimeout(function() {
+          loading.removeClass('active');
+        });
+      } else {
+        setTimeout(function() {
+          $("#countries").dropdown('set selected', selected_uri);
+        });
+      }
     })
     .catch(function (error) {
       console.log(error);
-      loading.removeClass('active');
+      setTimeout(function() {
+        loading.removeClass('active');
+      });
     });
 }
 
@@ -211,19 +237,20 @@ function addCountry(uri, name, item) {
         name: response.data.name,
         data: _.drop(series, index)
       }
-      refreshDisplay(uri, response.data, response.request.responseText);
-      loading.removeClass('active');
+      setTimeout(function() {
+        refreshDisplay(uri, response.data, response.request.responseText);
+        loading.removeClass('active')
+      });
     })
     .catch(function (error) {
       console.log(error);
-      loading.removeClass('active');
+      setTimeout(function() {
+        loading.removeClass('active');
+      });
     });
 }
 
 function removeCountry(uri, name, item) {
-  if (loading.hasClass('active')) {
-    return;
-  }
   delete corona.compare[item[0].dataset.id];
   refreshDisplay(uri, {}, "");
 }
