@@ -1,3 +1,4 @@
+[![Australia](https://corona.kranzky.com/oc/anz/au/badge.svg)](https://corona.kranzky.com?region=oc&subregion=anz&country=au)
 [![Arizona](https://corona.kranzky.com/am/na/us/az/badge.svg)](https://corona.kranzky.com?region=am&subregion=na&country=us&state=az)
 [![California](https://corona.kranzky.com/am/na/us/ca/badge.svg)](https://corona.kranzky.com?region=am&subregion=na&country=us&state=ca)
 [![Florida](https://corona.kranzky.com/am/na/us/fl/badge.svg)](https://corona.kranzky.com?region=am&subregion=na&country=us&state=fl)
