@@ -1,9 +1,7 @@
-[![Global](https://corona.kranzky.com/badge.svg?update)](https://corona.kranzky.com?)
 [![Arizona](https://corona.kranzky.com/am/na/us/az/badge.svg)](https://corona.kranzky.com?region=am&subregion=na&country=us&state=az)
 [![California](https://corona.kranzky.com/am/na/us/ca/badge.svg)](https://corona.kranzky.com?region=am&subregion=na&country=us&state=ca)
 [![Florida](https://corona.kranzky.com/am/na/us/fl/badge.svg)](https://corona.kranzky.com?region=am&subregion=na&country=us&state=fl)
 [![Texas](https://corona.kranzky.com/am/na/us/tx/badge.svg)](https://corona.kranzky.com?region=am&subregion=na&country=us&state=tx)
-[![Western Australia](https://corona.kranzky.com/oc/anz/au/wa/badge.svg?update)](https://corona.kranzky.com?region=oc&subregion=anz&country=au&state=wa)
 
 Corona
 ======
