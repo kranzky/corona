@@ -209,7 +209,7 @@ def merge_series(left, right)
   return left if right.nil?
   retval = {}
   left.keys.each do |key|
-    next unless key =~ /2020/
+    next unless key =~ /(2020|2021)/
     retval[key] = merge_records(left[key], right[key])
   end
   retval
@@ -286,7 +286,11 @@ def write_file(path, data)
     uri: "https://github.com/kranzky/corona",
 		license: "http://unlicense.org"
   }
-  File.write(path, JSON.pretty_generate(data))
+  blob = JSON.pretty_generate(data)
+  if blob != (File.read(path) rescue "")
+    puts "Writing #{path}"
+    File.write(path, blob)
+  end
 end
 
 def write_city(city, root, prefix)
@@ -489,7 +493,10 @@ def generate_badges(data, root)
     url = URL.gsub('NAME', URI.encode(name).gsub(/[ -]/, '%20')).gsub('TOTAL', total).gsub('DELTA', URI.encode("Δ#{delta} → ")).gsub('COLOUR', colour)
     puts "Writing #{path}"
     blob = RestClient.get(url)
-    File.open(path, 'wb') { |file| file.write(blob) }
+    if blob != (File.read(path) rescue "")
+      puts "Writing #{path}"
+      File.write(path, blob)
+    end
     break
   end
   return if today.nil?
