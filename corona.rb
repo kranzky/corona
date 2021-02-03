@@ -514,6 +514,7 @@ world = {}
   data = CSV.read(File.join(path, name), headers: true)
   total = 0
   data.each do |row|
+    next if row["Country/Region"] == 'US'
     total += row[data.headers.last].to_i
     next unless node = add_row(world, row)
     node[:series] ||= {}
