@@ -140,11 +140,6 @@ def process_series(series, status, headers, row)
           total: 0,
           delta: 0,
           growth: 0
-        },
-        recovered: {
-          total: 0,
-          delta: 0,
-          growth: 0
         }
       }
     series[date][status][:total] = row[name].to_i
@@ -198,7 +193,7 @@ end
 
 def merge_records(left, right)
   retval = Marshal.load(Marshal.dump(left))
-  [:confirmed, :deaths, :recovered].each do |status|
+  [:confirmed, :deaths].each do |status|
     retval[status][:total] += right[status][:total]
   end
   retval
@@ -239,7 +234,7 @@ def generate_series(data)
   end
   unless data[:series].nil? || series.nil?
     data[:series].each do |key, value|
-      [:confirmed, :deaths, :recovered].each do |status|
+      [:confirmed, :deaths].each do |status|
         next unless value[status][:total].zero?
         value[status][:total] = series[key][status][:total]
       end
@@ -258,11 +253,10 @@ def generate_metadata(data)
   return if data[:series].nil?
   prev = {
     confirmed: [0,0],
-    deaths: [0,0],
-    recovered: [0,0]
+    deaths: [0,0]
   }
   data[:series].each do |key, value|
-    [:confirmed, :deaths, :recovered].each do |status|
+    [:confirmed, :deaths].each do |status|
       total = value[status][:total]
       prev_delta = prev[status][1] - prev[status][0]
       this_delta = total - prev[status][1]
@@ -508,7 +502,7 @@ path = File.join(root, 'csse_covid_19_data', 'csse_covid_19_time_series')
 raise "No such directory: #{path}" unless Dir.exist?(path)
 
 world = {}
-['confirmed', 'deaths', 'recovered'].each do |status|
+['confirmed', 'deaths'].each do |status|
   puts status
   name = "time_series_covid19_#{status}_global.csv"
   data = CSV.read(File.join(path, name), headers: true)

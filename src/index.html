@@ -114,12 +114,10 @@
   function refreshDisplay(uri, data, raw) {
     confirmed = [];
     deaths = [];
-    recovered = [];
     _.each(data.series, function(value, key) {
       timestamp = Date.parse(key);
       confirmed.push([timestamp, value.confirmed.total]);
       deaths.push([timestamp, value.deaths.total]);
-      recovered.push([timestamp, value.recovered.total]);
     });
     chart = {
       chart: {
@@ -173,10 +171,6 @@
         {
           name: 'Deaths',
           data: deaths
-        },
-        {
-          name: 'Recovered',
-          data: recovered
         }
       ]
     };
