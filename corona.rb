@@ -416,6 +416,7 @@ def write_world(world, root, prefix)
   countries = {}
   world.each do |key, value|
     next if key == :series
+    next if key.blank?
     id = key.downcase
     uri = File.join(prefix, id)
     countries.merge!(write_region(value, File.join(root, id), uri))
