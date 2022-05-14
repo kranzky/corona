@@ -502,6 +502,7 @@ path = File.join(root, 'csse_covid_19_data', 'csse_covid_19_time_series')
 raise "No such directory: #{path}" unless Dir.exist?(path)
 
 world = {}
+puts "*** ingest ***"
 ['confirmed', 'deaths'].each do |status|
   puts status
   name = "time_series_covid19_#{status}_global.csv"
@@ -516,6 +517,7 @@ world = {}
   end
   puts total
 end
+puts "*** timeline ***"
 ['confirmed', 'deaths'].each do |status|
   puts "US #{status}"
   name = "time_series_covid19_#{status}_US.csv"
@@ -529,15 +531,22 @@ end
   end
   puts total
 end
+puts "*** states ***"
 state_acronyms(world)
+puts "*** cities ***"
 city_acronyms(world)
+puts "*** keys ***"
 world = regenerate_keys(world)
+puts "***series ***"
 generate_series(world)
+puts "*** metadata ***"
 generate_metadata(world)
+puts "*** world ***"
 show_world(world)
 write_world(world, 'www', 'https://corona.kranzky.com')
 FileUtils.cp(File.join('www', 'index.json'), File.join('www', 'api.json'))
 FileUtils.cp_r('src/.', 'www')
+puts "*** badges ***"
 generate_badges(world, 'www')
 
 __END__
