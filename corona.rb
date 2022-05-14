@@ -28,7 +28,8 @@ REGION_MAP = {
   'Americas' => 'AM',
   'Asia' => 'AS',
   'Europe' => 'EU',
-  'Oceania' => 'OC'
+  'Oceania' => 'OC',
+  'Special' => 'SP'
 }
 
 SUBREGION_MAP = {
@@ -50,16 +51,56 @@ SUBREGION_MAP = {
   'Southern Europe' => 'SEU',
   'Western Africa' => 'WAF',
   'Western Asia' => 'WA',
-  'Western Europe' => 'WEU'
+  'Western Europe' => 'WEU',
+  "Nowhere" => "NOW"
 }
+
+FLAGS = [
+  "🇨",
+  "🇨",
+  "🏴",
+  "🇽",
+  "🚩",
+  "🏴",
+  "🇵",
+  "🏳️"
+]
+
+class FakeCountry
+  @@count = 0
+  attr_accessor :name
+  def initialize(region)
+    @name = region
+    raise if @@count >= 8
+    @@count += 1
+    @count = @@count
+  end
+  def region
+    "Special"
+  end
+  def subregion
+    "Nowhere"
+  end
+  def states
+    []
+  end
+  def alpha2
+    '%02d' % @count
+  end
+  def emoji_flag
+    FLAGS[@count-1]
+  end
+end
+
+$fakes = {}
 
 def add_row(world, row)
   region = row['Country/Region'] || row['Country_Region']
   region = COUNTRY_MAP[region] if COUNTRY_MAP.has_key?(region)
   country = ISO3166::Country.find_country_by_name(region)
   if country.nil?
-    puts "Skipping: #{row}" 
-    return
+    $fakes[region] ||= FakeCountry.new(region)
+    country = $fakes[region]
   end
   province = row['Province/State'] || row['Province_State']
   return nil if province =~ /Princess/
@@ -416,7 +457,7 @@ def write_world(world, root, prefix)
   countries = {}
   world.each do |key, value|
     next if key == :series
-    next if key.blank?
+    next if key.empty?
     id = key.downcase
     uri = File.join(prefix, id)
     countries.merge!(write_region(value, File.join(root, id), uri))
