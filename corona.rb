@@ -245,7 +245,7 @@ def merge_series(left, right)
   return left if right.nil?
   retval = {}
   left.keys.each do |key|
-    next unless key =~ /(2020|2021|2022)/
+    next unless key =~ /(2020|2021|2022|2023)/
     retval[key] = merge_records(left[key], right[key])
   end
   retval
